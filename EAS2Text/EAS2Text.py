@@ -98,7 +98,8 @@ class EAS2Text(object):
                     for values in self.WFOText:
                         if values not in p:
                             p.append(values)
-                    p[-1] = f"and {p[-1]}"
+                    if(len(p) > 1):
+                        p[-1] = f"and {p[-1]}"
                     self.WFOText = "; ".join(p).strip() + ";"
                 else:
                     p = self.WFOText[0]
