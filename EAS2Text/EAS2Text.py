@@ -245,16 +245,16 @@ class EAS2Text(object):
                     "%m/%d/%y %H:%M:00 "
                 ) + self.getTZ(dtOffset)
                 if self.org == "CIV":
-                    self.orgText = "Civil Authorities"
+                    self.orgText = "The Civil Authorities"
                 self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} {bigFips} {self.strFIPS}. Effective Until {self.endTimeText}. ({self.callsign})"
 
             elif mode in ["BURK"]:
                 if self.org == "EAS":
                     self.orgText = "A Broadcast station or cable system"
                 elif self.org == "CIV":
-                    self.orgText = "Civil Authorities"
+                    self.orgText = "The Civil Authorities"
                 elif self.org == "WXR":
-                    self.orgText = "National Weather Service"
+                    self.orgText = "The National Weather Service"
                 self.strFIPS = (
                     self.strFIPS[:-1].replace(",", "").replace(";", ",")
                 )
@@ -280,7 +280,7 @@ class EAS2Text(object):
 
             else:
                 if self.org == "WXR":
-                    self.orgText = f"National Weather Service in {self.WFOText}"
+                    self.orgText = f"The National Weather Service in {self.WFOText}"
                 self.EASText = f"{self.orgText} has issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText}. Message from {self.callsign}."
 
     @classmethod
