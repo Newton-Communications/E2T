@@ -55,6 +55,8 @@ class EAS2Text(object):
         # or for a file-like stream:
         wfousfile = impresources.open_text(templates, 'wfo-us.json')
 
+    # print(load(wfousfile))
+
     # sameusJSON = load(sameusfile)
 
         
