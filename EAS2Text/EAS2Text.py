@@ -10,8 +10,6 @@ except ImportError:
     # Try backported to PY<37 `importlib_resources`.
     import importlib_resources as impresources
 
-from . import templates  # relative-import the *package* containing the templates
-
 class InvalidSAME(Exception):
     def __init__(self, error, message="Invalid Data in SAME Message"):
         self.message = message
