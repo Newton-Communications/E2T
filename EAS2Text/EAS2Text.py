@@ -4,14 +4,6 @@ from json import loads, load
 from time import localtime, timezone
 from collections import Counter
 
-try:
-    from importlib import resources as impresources
-except ImportError:
-    # Try backported to PY<37 `importlib_resources`.
-    import importlib_resources as impresources
-
-from . import templates  # relative-import the *package* containing the templates
-
 class InvalidSAME(Exception):
     def __init__(self, error, message="Invalid Data in SAME Message"):
         self.message = message
@@ -32,6 +24,14 @@ class MissingSAME(Exception):
 
 
 class EAS2Text(object):
+
+    try:
+        from importlib import resources as impresources
+    except ImportError:
+        # Try backported to PY<37 `importlib_resources`.
+        import importlib_resources as impresources
+
+    from . import templates  # relative-import the *package* containing the templates
 
     try:
         inp_file = (impresources.files(templates) / 'same-us.json')
