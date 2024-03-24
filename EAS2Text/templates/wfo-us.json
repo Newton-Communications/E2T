@@ -7180,7 +7180,7 @@
       {
         "county": "Cecil County",
         "state": "MD",
-        "wfo": "Philadelphia, PA/Mt. Holly, NJ (PHI)",
+        "wfo": "Baltimore, MD/Washington, D.C. (LWX)",
         "locality": ""
       }
     ],
@@ -21788,7 +21788,7 @@
       {
         "county": "Berkeley County",
         "state": "WV",
-        "wfo": "Charleston, WV (RLX)",
+        "wfo": "Baltimore, MD/Washington, D.C. (LWX)",
         "locality": ""
       }
     ],
@@ -21924,7 +21924,7 @@
       {
         "county": "Jefferson County",
         "state": "WV",
-        "wfo": "Charleston, WV (RLX)",
+        "wfo": "Baltimore, MD/Washington, D.C. (LWX)",
         "locality": ""
       }
     ],
@@ -22004,7 +22004,7 @@
       {
         "county": "Mineral County",
         "state": "WV",
-        "wfo": "Charleston, WV (RLX)",
+        "wfo": "Baltimore, MD/Washington, D.C. (LWX)",
         "locality": ""
       }
     ],
@@ -27388,7 +27388,7 @@
       {
         "county": "Escambia County",
         "state": "AL",
-        "wfo": "Birmingham, AL (BMX)",
+        "wfo": "Mobile, AL (MOB)",
         "locality": ""
       }
     ],
