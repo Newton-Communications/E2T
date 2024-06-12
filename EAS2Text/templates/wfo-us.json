@@ -154,7 +154,7 @@
       ],
       "12025": [
         {
-          "county": "Miami-Dade County",
+          "county": "Dade County",
           "state": "FL",
           "wfo": "Miami - South Florida (MFL)",
           "locality": ""
@@ -397,6 +397,14 @@
           "county": "Martin County",
           "state": "FL",
           "wfo": "Melbourne, FL (MLB)",
+          "locality": ""
+        }
+      ],
+      "12086": [
+        {
+          "county": "Miami-Dade County",
+          "state": "FL",
+          "wfo": "Miami - South Florida (MFL)",
           "locality": ""
         }
       ],
@@ -23510,6 +23518,174 @@
           "locality": ""
         }
       ],
+      "65009": [
+        {
+          "county": "Mexico Border S to 29N to 60 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65011": [
+        {
+          "county": "Mexico S of 29N to Punta Eugenia to 250 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65013": [
+        {
+          "county": "Punta Eugenia to Cabo San Lazaro to 250 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65014": [
+        {
+          "county": "Cabo San Lazaro to Cabo San Lucas to 250 nm offshore of 20N",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65016": [
+        {
+          "county": "From 17N to 20N between 110W and 115W, including the Revillagigedo Islands",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65017": [
+        {
+          "county": "Northern Gulf of California",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65019": [
+        {
+          "county": "Central Gulf of California",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65021": [
+        {
+          "county": "Southern Gulf of California",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65022": [
+        {
+          "county": "N of 20N and E of 110W including Entrance to the Gulf of California",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65024": [
+        {
+          "county": "Colima and Jalisco out 300 nm offshore S of 20N and E of 110W",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65025": [
+        {
+          "county": "Mexico - Michoachan and Guerrero to 250 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65026": [
+        {
+          "county": "Oaxaca W of Puerto Angel out 250 nm",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65028": [
+        {
+          "county": "Oaxaca E of Puerto Angel out 300 nm including the Gulf of Tehuantepec",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65029": [
+        {
+          "county": "Offshore Chiapas E of 94W",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65111": [
+        {
+          "county": "Guatemala and El Salvador to 250 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65113": [
+        {
+          "county": "El Salvador to North Costa Rica Including the Gulfs of Fonseca and Papagayo",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65115": [
+        {
+          "county": "North Costa Rica to West Panama to 250 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65117": [
+        {
+          "county": "East Panama and Colombia Including Gulf of Panama",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65119": [
+        {
+          "county": "Ecuador Including Gulf of Guayaquil to 250 NM offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65121": [
+        {
+          "county": "Ecuador between 250 and 500 NM Offshore",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
+      "65123": [
+        {
+          "county": "Offshore Galapagos Islands",
+          "state": "",
+          "wfo": "Pago Pago, AS (PPG)",
+          "locality": ""
+        }
+      ],
       "72000": [
         {
           "county": "All of Puerto Rico",
@@ -23522,7 +23698,7 @@
         {
           "county": "Adjuntas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23530,7 +23706,7 @@
         {
           "county": "Aguada",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23538,7 +23714,7 @@
         {
           "county": "Aguadilla",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23546,7 +23722,7 @@
         {
           "county": "Aguas Buenas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23554,7 +23730,7 @@
         {
           "county": "Aibonito",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23562,7 +23738,7 @@
         {
           "county": "Anasco",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23570,7 +23746,7 @@
         {
           "county": "Arecibo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23578,7 +23754,7 @@
         {
           "county": "Arroyo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23586,7 +23762,7 @@
         {
           "county": "Barceloneta",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23594,7 +23770,7 @@
         {
           "county": "Barranquitas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23602,7 +23778,7 @@
         {
           "county": "Bayamon",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23610,7 +23786,7 @@
         {
           "county": "Cabo Rojo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23618,7 +23794,7 @@
         {
           "county": "Caguas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23626,14 +23802,14 @@
         {
           "county": "Camuy",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
       "72029": [
         {
           "county": "CanovanasPR",
-          "state": "SJU",
+          "state": "San Juan, PR (SJU)",
           "wfo": "",
           "locality": ""
         }
@@ -23642,7 +23818,7 @@
         {
           "county": "Carolina",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23650,7 +23826,7 @@
         {
           "county": "Catano",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23658,7 +23834,7 @@
         {
           "county": "Cayey",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23666,7 +23842,7 @@
         {
           "county": "Ceiba",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23674,7 +23850,7 @@
         {
           "county": "Cidra",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23682,7 +23858,7 @@
         {
           "county": "Coamo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23690,7 +23866,7 @@
         {
           "county": "Comerio",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23698,7 +23874,7 @@
         {
           "county": "Corozal",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23706,7 +23882,7 @@
         {
           "county": "Culebra",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23714,7 +23890,7 @@
         {
           "county": "Dorado",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23722,7 +23898,7 @@
         {
           "county": "Fajardo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23730,7 +23906,7 @@
         {
           "county": "Florida",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23738,7 +23914,7 @@
         {
           "county": "Guanica",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23746,7 +23922,7 @@
         {
           "county": "Guayama",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23754,7 +23930,7 @@
         {
           "county": "Guayanilla",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23762,7 +23938,7 @@
         {
           "county": "Guaynabo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23770,7 +23946,7 @@
         {
           "county": "Gurabo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23778,7 +23954,7 @@
         {
           "county": "Hatillo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23786,7 +23962,7 @@
         {
           "county": "Hormigueros",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23794,7 +23970,7 @@
         {
           "county": "Isabela",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23802,7 +23978,7 @@
         {
           "county": "Jayuya",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23810,7 +23986,7 @@
         {
           "county": "Juana Diaz",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23818,7 +23994,7 @@
         {
           "county": "Juncos",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23826,7 +24002,7 @@
         {
           "county": "Lajas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23834,7 +24010,7 @@
         {
           "county": "Lares",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23842,7 +24018,7 @@
         {
           "county": "Las Marias",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23850,7 +24026,7 @@
         {
           "county": "Las Piedras",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23858,7 +24034,7 @@
         {
           "county": "Loiza",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23866,7 +24042,7 @@
         {
           "county": "Luquillo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23874,7 +24050,7 @@
         {
           "county": "Manati",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23882,7 +24058,7 @@
         {
           "county": "Maricao",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23890,7 +24066,7 @@
         {
           "county": "Maunabo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23898,7 +24074,7 @@
         {
           "county": "Mayaguez",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23906,7 +24082,7 @@
         {
           "county": "Moca",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23914,7 +24090,7 @@
         {
           "county": "Morovis",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23922,7 +24098,7 @@
         {
           "county": "Nabuabo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23930,7 +24106,7 @@
         {
           "county": "Naranjito",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23938,7 +24114,7 @@
         {
           "county": "Orocovis",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23946,7 +24122,7 @@
         {
           "county": "Patillas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23954,7 +24130,7 @@
         {
           "county": "Penuelas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23962,7 +24138,7 @@
         {
           "county": "Ponce",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23970,7 +24146,7 @@
         {
           "county": "Quebradillas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23978,7 +24154,7 @@
         {
           "county": "Rincon",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23986,7 +24162,7 @@
         {
           "county": "Rio Grande",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -23994,7 +24170,7 @@
         {
           "county": "Sabana Grande",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24002,7 +24178,7 @@
         {
           "county": "Salinas",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24010,7 +24186,7 @@
         {
           "county": "San German",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24018,7 +24194,7 @@
         {
           "county": "San Juan",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24026,7 +24202,7 @@
         {
           "county": "San Lorenzo",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24034,7 +24210,7 @@
         {
           "county": "San Sabastian",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24042,7 +24218,7 @@
         {
           "county": "Santa Isabel",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24050,7 +24226,7 @@
         {
           "county": "Toa Alta",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24058,7 +24234,7 @@
         {
           "county": "Toa Baja",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24066,7 +24242,7 @@
         {
           "county": "Trujillo Alto",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24074,7 +24250,7 @@
         {
           "county": "Utuado",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24082,7 +24258,7 @@
         {
           "county": "Vega Alta",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24090,7 +24266,7 @@
         {
           "county": "Vega Baja",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24098,7 +24274,7 @@
         {
           "county": "Vieques",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24106,7 +24282,7 @@
         {
           "county": "Villalba",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24114,7 +24290,7 @@
         {
           "county": "Yabucoa",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24122,7 +24298,7 @@
         {
           "county": "Yauco",
           "state": "PR",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -24934,6 +25110,22 @@
           "locality": ""
         }
       ],
+      "75230": [
+        {
+          "county": "Albemarle Sound",
+          "state": "",
+          "wfo": "Wilmington, NC (ILM)",
+          "locality": ""
+        }
+      ],
+      "75231": [
+        {
+          "county": "Croatan and Roanoke Sounds",
+          "state": "",
+          "wfo": "Wilmington, NC (ILM)",
+          "locality": ""
+        }
+      ],
       "75250": [
         {
           "county": "Coastal waters from Surf City to Cape Fear NC out 20 NM",
@@ -25022,7 +25214,7 @@
           "locality": ""
         }
       ],
-      "75353": [
+      "75354": [
         {
           "county": "Coastal Waters from Savannah GA to Altamaha Sound GA out 20 NM including Grays Reef National Marine Sanctuary",
           "state": "",
@@ -25202,7 +25394,15 @@
         {
           "county": "Atlantic Waters of Puerto Rico and U.S. VI from 10 NM to 19.5 N",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
+          "locality": ""
+        }
+      ],
+      "75711": [
+        {
+          "county": "Atlantic Waters of Puerto Rico and the U.S. Virgin Islands from 10 NM to 17 N",
+          "state": "",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25210,7 +25410,7 @@
         {
           "county": "Coastal Waters of Northern Puerto Rico out 10 NM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25218,15 +25418,31 @@
         {
           "county": "Coastal Waters of Northern U.S. VI and Culebra out 10 NM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
+          "locality": ""
+        }
+      ],
+      "75716": [
+        {
+          "county": "Coastal Waters from Cabo San Juan to the waters between Anegada Island and Virgin Gorda and north 10 NM",
+          "state": "",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
       "75722": [
         {
-          "county": "Anegada Passage Southward to 17 N",
+          "county": "Anegada Passage Southward to 17N, AM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
+          "locality": ""
+        }
+      ],
+      "75723": [
+        {
+          "county": "Anegada Passage east of Virgin Gorda and Saint Croix south to 17N",
+          "state": "",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25234,7 +25450,15 @@
         {
           "county": "Coastal Waters of Southern U.S. VI Vieques and Eastern Puerto Rico out 10 NM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
+          "locality": ""
+        }
+      ],
+      "75726": [
+        {
+          "county": "Coastal waters east of Puerto Rico, around Vieques, and around and just north of Culebra and Saint John",
+          "state": "",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25242,7 +25466,15 @@
         {
           "county": "Caribbean Waters of Puerto Rico and U.S. VI from 10 NM to 17 N",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
+          "locality": ""
+        }
+      ],
+      "75733": [
+        {
+          "county": "Caribbean waters of Puerto Rico from 10 NM to 17 N, including the coastal waters of Saint Croix",
+          "state": "",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25250,7 +25482,7 @@
         {
           "county": "Coastal Waters of Southern Puerto Rico out 10 NM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25258,7 +25490,7 @@
         {
           "county": "Mona Passage Southward to 17 N",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25266,7 +25498,7 @@
         {
           "county": "Coastal Waters of Northwestern Puerto Rico out 10 NM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25274,7 +25506,7 @@
         {
           "county": "Coastal Waters of Southwestern Puerto Rico out 10 NM",
           "state": "",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -25552,9 +25784,41 @@
           "locality": ""
         }
       ],
+      "77231": [
+        {
+          "county": "Baffin Bay and Upper Laguna Madre",
+          "state": "",
+          "wfo": "Corpus Christi, TX (CRP)",
+          "locality": ""
+        }
+      ],
+      "77232": [
+        {
+          "county": "Corpus Christi and Nueces Bays",
+          "state": "",
+          "wfo": "Corpus Christi, TX (CRP)",
+          "locality": ""
+        }
+      ],
       "77235": [
         {
           "county": "Bays and Waterways from Port Aransas to Port O'Connor",
+          "state": "",
+          "wfo": "Corpus Christi, TX (CRP)",
+          "locality": ""
+        }
+      ],
+      "77236": [
+        {
+          "county": "Copano, Aransas, and Redfish Bays",
+          "state": "",
+          "wfo": "Corpus Christi, TX (CRP)",
+          "locality": ""
+        }
+      ],
+      "77237": [
+        {
+          "county": "San Antonio, Mesquite, and Espiritu Santo Bays",
           "state": "",
           "wfo": "Corpus Christi, TX (CRP)",
           "locality": ""
@@ -25659,6 +25923,14 @@
       "77435": [
         {
           "county": "Vermillion Bay",
+          "state": "",
+          "wfo": "Lake Charles, LA (LCH)",
+          "locality": ""
+        }
+      ],
+      "77436": [
+        {
+          "county": "Atchafalaya and East Cote Blanche",
           "state": "",
           "wfo": "Lake Charles, LA (LCH)",
           "locality": ""
@@ -26058,7 +26330,7 @@
         {
           "county": "St. Croix",
           "state": "VI",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -26066,7 +26338,7 @@
         {
           "county": "St. John",
           "state": "VI",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -26074,7 +26346,7 @@
         {
           "county": "St. Thomas",
           "state": "VI",
-          "wfo": "SJU",
+          "wfo": "San Juan, PR (SJU)",
           "locality": ""
         }
       ],
@@ -26082,7 +26354,7 @@
         {
           "county": "Chequamegon Bay-Bayfield to Oak Point WI",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26090,7 +26362,7 @@
         {
           "county": "Grand Portage to Grand Marais MN",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": "GREAT LAKE FIPS"
         }
       ],
@@ -26098,7 +26370,7 @@
         {
           "county": "Grand Marais to Taconite Harbor MN",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26106,7 +26378,7 @@
         {
           "county": "Taconite Harbor to Silver Bay Harbor MN",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26114,7 +26386,7 @@
         {
           "county": "Silver Bay Harbor to Two Harbors MN",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26122,7 +26394,7 @@
         {
           "county": "Two Harbors to Duluth MN",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26130,7 +26402,7 @@
         {
           "county": "Duluth MN to Port Wing WI",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26138,7 +26410,7 @@
         {
           "county": "Port Wing to Sand Island WI",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26146,7 +26418,7 @@
         {
           "county": "Sand Island to Bayfield WI",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26154,7 +26426,7 @@
         {
           "county": "Oak Point to Saxon Harbor WI",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26162,7 +26434,7 @@
         {
           "county": "Outer Apostle Islands Beyond 5 nm From Mainland",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -26170,7 +26442,7 @@
         {
           "county": "Lake Superior west of a line from Saxon Harbor WI to Grand Portage MN beyond 5 NM",
           "state": "",
-          "wfo": "DLH",
+          "wfo": "Duluth, MN (DLH)",
           "locality": ""
         }
       ],
@@ -29733,6 +30005,192 @@
           "county": "Windham County",
           "state": "CT",
           "wfo": "Boston/Norton, MA (BOX)",
+          "locality": ""
+        }
+      ]
+    },
+    "ALRCA": {
+      "11100": [
+        {
+          "county": "Kings County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "11200": [
+        {
+          "county": "Annapolis County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "11300": [
+        {
+          "county": "Digby County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "11400": [
+        {
+          "county": "Lunenburg County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "11500": [
+        {
+          "county": "Queens County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "11600": [
+        {
+          "county": "Shelburne County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "11700": [
+        {
+          "county": "Yarmouth County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12100": [
+        {
+          "county": "Cumberland County - Minas Shore",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12200": [
+        {
+          "county": "Cumberland County North and Cobequid Pass",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12300": [
+        {
+          "county": "Colchester County - Cobequid Bay",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12400": [
+        {
+          "county": "Colchester County North",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12500": [
+        {
+          "county": "Hants County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12600": [
+        {
+          "county": "Colchester County - Truro and south",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12700": [
+        {
+          "county": "Halifax Metro and Halifax County West",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "12800": [
+        {
+          "county": "Halifax County - east of Porters Lake",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "13100": [
+        {
+          "county": "Pictou County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "13200": [
+        {
+          "county": "Guysborough County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "13300": [
+        {
+          "county": "Antigonish County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "14100": [
+        {
+          "county": "Richmond County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "14200": [
+        {
+          "county": "Inverness County - south of Mabou",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "14300": [
+        {
+          "county": "Inverness County - Mabou and north",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "14400": [
+        {
+          "county": "Victoria County",
+          "state": "NS",
+          "wfo": "Environment Canada",
+          "locality": ""
+        }
+      ],
+      "14500": [
+        {
+          "county": "Sydney Metro and Cape Breton County",
+          "state": "NS",
+          "wfo": "Environment Canada",
           "locality": ""
         }
       ]
