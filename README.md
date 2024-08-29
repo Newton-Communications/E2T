@@ -2,6 +2,17 @@
 
 An Extensive EAS Header to Text Translation Python Library REVAMPED!
 
+## Reporting Issues
+Data for the Weather Forecasting Offices has been collected based off of personal observations, available public data, and user reports and feedback. Any incorrect or invalid data should be reported using the specified criteria.
+- If a FIPS Code reports as "Unknown WFO" and specifies a FIPS code, you can either report it to me on [Discord](https://discord.com/users/637078631943897103) and specify you are contacting regarding EAS2Text, or you can post it in the Issues tab on this repository, and make sure to include the FIPS Code mentioned as well as the proper WFO that should be specified by the FIPS Code.
+- If a specific alert or Individual FIPS Code reports the incorrect Weather Forecasting Office, you can either report it to me on [Discord](https://discord.com/users/637078631943897103) and specify you are contacting regarding EAS2Text, or you can post it in the Issues tab on this repository, and make sure to include either the entire ZCZC SAME String and/or the FIPS Code that reports the wrong WFO, as well as what WFO is incorrect and specify what it should be changed to (the proper WFO).
+
+## Known Issues
+Several issues with the project are already known, and a fix either isn't possible, or isn't within plans to be implemented.
+- Unknown FIPS Codes. Unless they're Canadian FIPS Codes, then we have plans to make Canadian alerts available via a separate system that will be included with EAS2Text at a later date. Unknown FIPS Codes, unless they are an actual, verifiable fips code, or edits to existing fips codes (if they are contact on [Discord](https://discord.com/users/637078631943897103) or specify the specific issue with said FIPS Code or lack of FIPS Code in the Issues tab on this repository), are a product of individual stations or the National Weather Service, and are not a bug with the script, and moreso a bug with the decoding of the ZCZC Headers from whatever EAS decoder/encoder you're using, or an issue with the alert itself when it was toned by the individual station or National Weather Service NOAA Weather Radio station.
+- The software sometimes may crash entirely or quit functioning, this is a known issue, and errors can be reported via [Discord](https://discord.com/users/637078631943897103) or the Issues section of this repository. Not all errors will be considered for an implemented fix, so make sure if you use this script, you have it on a script manager such as PM2 or an auto-restarting SystemCTL service.
+
+
 ## Features
 > - [x] EAS to Text Translation
 > - [x] EAS EOM detection
