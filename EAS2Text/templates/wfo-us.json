@@ -3940,7 +3940,7 @@
       {
         "county": "Buchanan County",
         "state": "IA",
-        "wfo": "Quad Cities, IA/IL (DVN)",
+        "wfo": "Des Moines, IA (DMX)",
         "locality": ""
       }
     ],
@@ -4012,7 +4012,7 @@
       {
         "county": "Chickasaw County",
         "state": "IA",
-        "wfo": "La Crosse, WI (ARX)",
+        "wfo": "Des Moines, IA (DMX)",
         "locality": ""
       }
     ],
@@ -4124,7 +4124,7 @@
       {
         "county": "Fayette County",
         "state": "IA",
-        "wfo": "La Crosse, WI (ARX)",
+        "wfo": "Des Moines, IA (DMX)",
         "locality": ""
       }
     ],
@@ -4132,7 +4132,7 @@
       {
         "county": "Floyd County",
         "state": "IA",
-        "wfo": "La Crosse, WI (ARX)",
+        "wfo": "Des Moines, IA (DMX)",
         "locality": ""
       }
     ],
@@ -7668,7 +7668,7 @@
       {
         "county": "Gogebic County",
         "state": "MI",
-        "wfo": "Marquette, MI (MQT)",
+        "wfo": "Duluth, MN (DLH)",
         "locality": ""
       }
     ],
@@ -8516,7 +8516,7 @@
       {
         "county": "Morrison County",
         "state": "MN",
-        "wfo": "Twin Cities/Chanhassen, MN (MPX)",
+        "wfo": "Duluth, MN (DLH)",
         "locality": ""
       }
     ],
@@ -8572,7 +8572,7 @@
       {
         "county": "Otter Tail County",
         "state": "MN",
-        "wfo": "Grand Forks, ND (FGF)",
+        "wfo": "Duluth, MN (DLH)",
         "locality": ""
       }
     ],
@@ -8740,7 +8740,7 @@
       {
         "county": "Todd County",
         "state": "MN",
-        "wfo": "Twin Cities/Chanhassen, MN (MPX)",
+        "wfo": "Duluth, MN (DLH)",
         "locality": ""
       }
     ],
@@ -8764,7 +8764,7 @@
       {
         "county": "Wadena County",
         "state": "MN",
-        "wfo": "Grand Forks, ND (FGF)",
+        "wfo": "Duluth, MN (DLH)",
         "locality": ""
       }
     ],
@@ -12500,7 +12500,7 @@
       {
         "county": "Jefferson County",
         "state": "NY",
-        "wfo": "Buffalo, NY (BUF)",
+        "wfo": "Binghamton, NY (BGM)",
         "locality": ""
       }
     ],
@@ -12516,7 +12516,7 @@
       {
         "county": "Lewis County",
         "state": "NY",
-        "wfo": "Buffalo, NY (BUF)",
+        "wfo": "Binghamton, NY (BGM)",
         "locality": ""
       }
     ],
@@ -14868,7 +14868,7 @@
       {
         "county": "Choctaw County",
         "state": "OK",
-        "wfo": "Tulsa, OK (TSA)",
+        "wfo": "Norman, OK (OUN)",
         "locality": ""
       }
     ],
@@ -19124,7 +19124,7 @@
       {
         "county": "Leon County",
         "state": "TX",
-        "wfo": "Fort Worth/Dallas, TX (FWD)",
+        "wfo": "Houston/Galveston, TX (HGX)",
         "locality": ""
       }
     ],
@@ -19292,7 +19292,7 @@
       {
         "county": "Milam County",
         "state": "TX",
-        "wfo": "Fort Worth/Dallas, TX (FWD)",
+        "wfo": "Houston/Galveston, TX (HGX)",
         "locality": ""
       }
     ],
@@ -19548,7 +19548,7 @@
       {
         "county": "Robertson County",
         "state": "TX",
-        "wfo": "Fort Worth/Dallas, TX (FWD)",
+        "wfo": "Houston/Galveston, TX (HGX)",
         "locality": ""
       }
     ],
@@ -21468,7 +21468,7 @@
       {
         "county": "Adams County",
         "state": "WA",
-        "wfo": "Spokane, WA (OTX)",
+        "wfo": "Pendleton, OR (PDT)",
         "locality": ""
       }
     ],
@@ -21564,7 +21564,7 @@
       {
         "county": "Grant County",
         "state": "WA",
-        "wfo": "Spokane, WA (OTX)",
+        "wfo": "Pendleton, OR (PDT)",
         "locality": ""
       }
     ],
@@ -21772,7 +21772,7 @@
       {
         "county": "Yakima County",
         "state": "WA",
-        "wfo": "Seattle/Tacoma, WA (SEW)",
+        "wfo": "Pendleton, OR (PDT)",
         "locality": ""
       }
     ],
