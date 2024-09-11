@@ -8,7 +8,7 @@ Data for the Weather Forecasting Offices has been collected based off of persona
 - If a specific alert or Individual FIPS Code reports the incorrect Weather Forecasting Office, you can either report it to me on [Discord](https://discord.com/users/637078631943897103) and specify you are contacting regarding EAS2Text, or you can post it in the Issues tab on this repository, and make sure to include either the entire ZCZC SAME String and/or the FIPS Code that reports the wrong WFO, as well as what WFO is incorrect and specify what it should be changed to (the proper WFO).
 
 ## Specific Features That May Be Considered An Issue
-- Some FIPS Codes may report as multiple WFOs due to NOAA Weather Radio transmitter coverage overlap. Functionality has been programmed into the script to detect if a county is covered by multiple WFOs and display all WFOs that tone for that county based on NWR coverage. This is a new feature. Marine localities will still need data determined, due to a lack of NOAA supplied data for Marine localities. Incorrect WFOs should only be reported if evidence is supplied to suggest that the data supplied to the project by the NWS is incorrect based upon NWR transmitter coverage maps.
+- (CURRENTLY AN OPT-IN FEATURE) Some FIPS Codes may report as multiple WFOs due to NOAA Weather Radio transmitter coverage overlap. Functionality has been programmed into the script to detect if a county is covered by multiple WFOs and display all WFOs that tone for that county based on NWR coverage. This is a new feature. Marine localities will still need data determined, due to a lack of NOAA supplied data for Marine localities. Incorrect WFOs should only be reported if evidence is supplied to suggest that the data supplied to the project by the NWS is incorrect based upon NWR transmitter coverage maps.
 
 ## Known Issues
 Several issues with the project are already known, and a fix either isn't possible, or isn't within plans to be implemented.
@@ -23,7 +23,7 @@ Several issues with the project are already known, and a fix either isn't possib
 > - [x] Additional raw outputs and individual item outputs
 > - [x] EAS Data Validation
 > - [x] WXR Weather Forecasting Office detection and support
-> - [x] WXR Station Data and Coverage Overlap detection and support
+> - [x] WXR Station Data and Coverage Overlap detection and support (Opt-in)
 > - [x] Marine FIPS codes readded and fixed
 > - [x] Error handling revamped for new features
 
@@ -158,14 +158,14 @@ The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued
 ```
 
 ## Opt in to New WFO Data
-You can specify a boolean value in order to revert back to the old WFO standards should you have issues with the new update.
-Note: This *CAN* and *WILL* break stuff and will cause WFOs to not be updated automatically. Only use this if you are having significant problems with the new system and need to quickly fix it so you can use it for a logger.
+You can specify a boolean value in order to use the new standard as specified in the update.
+Note: This *CAN* and *WILL* sometimes output incorrect data, so use it without any expressed guarantee the data is accurate.
 
 To specify this:
 ```python
 from EAS2Text import EAS2Text
 
-oof = EAS2Text("ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-")
+oof = EAS2Text("ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-", newWFO=True)
 
 
 ## RAW Data output
@@ -204,7 +204,6 @@ print(f"TEXT Start Time: {oof.startTimeText}") ## A Start-Time Tag in the format
 print(f"TEXT End Time: {oof.endTimeText}") ## A End-Time Tag in the format of "HH:MM AM/PM MONTH_NAME DD, YYYY"
 print(f"{oof.EASText}") ## The full EAS Output dataBumped version to 0.1.14.0 and added autoupdating json lists to prevent the need to constantly update the script in the future.
 ```
-
 should output:
 ```
 RAW Data: ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-
