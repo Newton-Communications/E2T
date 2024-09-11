@@ -14,7 +14,7 @@ setup(
     name="EAS2Text",
     packages=["EAS2Text"],
     package_data={'EAS2Text': ['templates/*.json']},
-    version="0.1.14.0",
+    version="0.1.17.0",
     description="A Python library to convert raw EAS header data to a human readable text",
     author="secludedhusky",
     author_email="secludedhusky@chesbaycommunications.com",
@@ -28,7 +28,6 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "License :: Other/Proprietary License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -39,4 +38,5 @@ setup(
         "Topic :: Software Development :: Libraries",
         "Topic :: Utilities",
     ],
+    include_package_data=True,  # Ensure non-Python files are included
 )
