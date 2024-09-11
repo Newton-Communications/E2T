@@ -228,7 +228,7 @@ class EAS2Text(object):
                     self.orgText = stats["ORGS"][self.org]
                 except:
                     self.orgText = (
-                        f"An Unknown Originator ({self.org}) has issued "
+                        f"An Unknown Originator ({self.org});"
                     )
                 try:
                     self.evntText = stats["EVENTS"][self.evnt]

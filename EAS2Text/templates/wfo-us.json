@@ -3004,7 +3004,7 @@
       {
         "county": "Stephenson County",
         "state": "IL",
-        "wfo": "Quad Cities, IA/IL (DVN)",
+        "wfo": "Chicago, IL (LOT)",
         "locality": ""
       }
     ],
@@ -7692,7 +7692,7 @@
       {
         "county": "Hillsdale County",
         "state": "MI",
-        "wfo": "Northern Indiana (IWX)",
+        "wfo": "Grand Rapids, MI (GRR)",
         "locality": ""
       }
     ],
@@ -7828,7 +7828,7 @@
       {
         "county": "Livingston County",
         "state": "MI",
-        "wfo": "Detroit/Pontiac, MI (DTX)",
+        "wfo": "Grand Rapids, MI (GRR)",
         "locality": ""
       }
     ],
@@ -8076,7 +8076,7 @@
       {
         "county": "Shiawassee County",
         "state": "MI",
-        "wfo": "Detroit/Pontiac, MI (DTX)",
+        "wfo": "Grand Rapids, MI (GRR)",
         "locality": ""
       }
     ],
@@ -12500,7 +12500,7 @@
       {
         "county": "Jefferson County",
         "state": "NY",
-        "wfo": "Binghamton, NY (BGM)",
+        "wfo": "Buffalo, NY (BUF)",
         "locality": ""
       }
     ],
@@ -12516,7 +12516,7 @@
       {
         "county": "Lewis County",
         "state": "NY",
-        "wfo": "Binghamton, NY (BGM)",
+        "wfo": "Buffalo, NY (BUF)",
         "locality": ""
       }
     ],
@@ -12620,7 +12620,7 @@
       {
         "county": "Oswego County",
         "state": "NY",
-        "wfo": "Binghamton, NY (BGM)",
+        "wfo": "Buffalo, NY (BUF)",
         "locality": ""
       }
     ],
@@ -15748,7 +15748,7 @@
       {
         "county": "Blair County",
         "state": "PA",
-        "wfo": "State College, PA (CTP)",
+        "wfo": "Pittsburgh, PA (PBZ)",
         "locality": ""
       }
     ],
@@ -15852,7 +15852,7 @@
       {
         "county": "Crawford County",
         "state": "PA",
-        "wfo": "Cleveland, OH (CLE)",
+        "wfo": "Pittsburgh, PA (PBZ)",
         "locality": ""
       }
     ],
@@ -16108,7 +16108,7 @@
       {
         "county": "Pike County",
         "state": "PA",
-        "wfo": "Binghamton, NY (BGM)",
+        "wfo": "Philadelphia, PA/Mt. Holly, NJ (PHI)",
         "locality": ""
       }
     ],
@@ -16124,7 +16124,7 @@
       {
         "county": "Schuylkill County",
         "state": "PA",
-        "wfo": "State College, PA (CTP)",
+        "wfo": "Philadelphia, PA/Mt. Holly, NJ (PHI)",
         "locality": ""
       }
     ],
@@ -22324,7 +22324,7 @@
       {
         "county": "Crawford County",
         "state": "WI",
-        "wfo": "Green Bay, WI (GRB)",
+        "wfo": "La Crosse, WI (ARX)",
         "locality": ""
       }
     ],
