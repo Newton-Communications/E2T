@@ -23689,8 +23689,8 @@
     "72000": [
       {
         "county": "All of Puerto Rico",
-        "state": "",
-        "wfo": "",
+        "state": "PR",
+        "wfo": "San Juan, PR (SJU)",
         "locality": ""
       }
     ],
