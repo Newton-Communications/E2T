@@ -112,8 +112,59 @@ TEXT End Time: 08:29 PM
 The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 02:29 PM and ending at 08:29 PM. Message from EAR/FOLF.
 ```
 
-## NEW FEATURE: Encoder Emulation!
-EAS2Text is the first Header to Text adapter that can "Emulate ENDECs"
+## NEW FEATURE: Canadian Forecast Regions!
+EAS2Text has finally implemented Canadian Forecast Regions and Canada support into the software. However, due to the way Canadian FIPS codes are structured, it requires the software to be switched from the US mode to the Canadian mode.
+
+Remember: **There is __no__ WFO text similar to the other scripts, so prepare your script accordingly!**
+
+To use Canadian mode:
+```python
+from EAS2Text import EAS2Text
+
+oof = EAS2Text("ZCZC-WXR-HWW-090000-098110+0100-2641926-EC/GC/CA-", canada=True) ## Enabled Canadian Mode
+
+## RAW Data output
+print(f"RAW Data: {oof.EASData}") ## Input Data
+print(f"RAW ORG: {oof.org}") ## Raw Originator Code: ZCZC-{ORG}-EVN-PSSCCC-PSSCCC+TTTT-JJJHHMM-CCCCCCCC-
+print(f"RAW EVNT: {oof.evnt}") ## Raw Event Code: ZCZC-ORG-{EVN}-PSSCCC-PSSCCC+TTTT-JJJHHMM-CCCCCCCC-
+print(f"RAW FIPS: {oof.FIPS}")  ## Raw FIPS Code(s) in a list: ZCZC-ORG-EVN-{PSSCCC-PSSCCC}+TTTT-JJJHHMM-CCCCCCCC-
+print(f"Purge Time: {oof.purge}") ## Purge Time in a list format of HH, MM: ZCZC-ORG-EVN-PSSCCC-PSSCCC+{TTTT}-JJJHHMM-CCCCCCCC-
+print(f"RAW TIMESTAMP: {oof.timeStamp}") ## RAW Timestamp: ZCZC-ORG-EVN-PSSCCC-PSSCCC+TTTT-{JJJHHMM}-CCCCCCCC-
+print(f"RAW Callsign: {oof.callsign}") ## Input Callsign
+
+## Semi-RAW Data
+print(f"Start Time: {oof.startTime}") ## A Datetime.Datetime object of the Start Time (Local Timezone)
+print(f"End Time: {oof.endTime}") ## A Datetime.Datetime object of the End Time (Local Timezone)
+
+## Parsed Data Output
+print(f"TEXT ORG: {oof.orgText}") ## A Human-Readable Version of ORG
+print(f"TEXT EVNT: {oof.evntText}") ## A Human Readable Version of EVN
+print(f"TEXT FIPS: {oof.FIPSText}") ## A List of All FIPS County Names (Returns "FIPS Code PSSCCC" if no available county)
+print(f"TEXT Start Time: {oof.startTimeText}") ## A Start-Time Tag in the format of "HH:MM AM/PM MONTH_NAME DD, YYYY"
+print(f"TEXT End Time: {oof.endTimeText}") ## A End-Time Tag in the format of "HH:MM AM/PM MONTH_NAME DD, YYYY"
+print(f"{oof.EASText}") ## The full EAS Output data
+```
+should output:
+```
+RAW Data: ZCZC-WXR-HWW-090000-098110+0100-2641926-EC/GC/CA-
+RAW ORG: WXR
+RAW EVNT: HWW
+RAW FIPS: ['090000', '098110']
+Purge Time: ['01', '00']
+RAW TIMESTAMP: 2641926
+RAW Callsign: EC/GC/CA
+Start Time: 2024-09-21 15:26:00
+End Time: 2024-09-21 16:26:00
+TEXT ORG: Environment Canada
+TEXT EVNT: a High Wind Warning
+TEXT FIPS: ['All of Yukon/Northwest Territories/Nunavut', 'and Arctic Bay, NU']
+TEXT Start Time: 03:26 PM
+TEXT End Time: 04:26 PM
+Environment Canada has issued a High Wind Warning for All of Yukon/Northwest Territories/Nunavut; and Arctic Bay, NU; beginning at 03:26 PM and ending at 04:26 PM. Message from EC/GC/CA.
+```
+
+## Advanced Usage: Encoder Emulation
+EAS2Text can be used to mimic or "emulate" other EAS devices.
 
 Currently Supported:
  - DASDEC
@@ -140,11 +191,11 @@ should output:
 The National Weather Service has issued a Special Weather Statement for Allegany County, MD, Baltimore County, MD, Carroll County, MD, Frederick County, MD, Harford County, MD, Washington County, MD, Frederick County, VA, City of Winchester, VA, Berkeley County, WV, Hampshire County, WV, Jefferson County, WV, Mineral County, WV, and Morgan County, WV beginning at 02:29 pm and ending at 08:29 pm (EAR/FOLF)
 ```
 
-## NEW FEATURE: Timezone Specification!
-You can now specify a timezone offset to use! 
-Note: This *CAN* and *WILL* break if you use obscure timezones. Keep it to Mainland U.S. for best reliability.
+## Advanced Usage: Timezone Specification
+Timezones can be specified, both in UTC offset and in TZ timezone format. [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+Note: The custom timezone specification feature has a possibility to break if an invalid timezone is specified.
 
-To use an specific timezone:
+To use an specific timezone offset:
 ```python
 from EAS2Text import EAS2Text
 
@@ -157,7 +208,20 @@ should output:
 The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 12:29 PM and ending at 06:29 PM. Message from EAR/FOLF.
 ```
 
-## Opt in to New WFO Data
+To use an specific TZ timezone:
+```python
+from EAS2Text import EAS2Text
+
+oof = EAS2Text(sameData = "ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-", timeZoneTZ="Europe/Berlin") ## Uses Europe/Berlin time.
+
+print(f"{oof.EASText}") ## The full EAS Output data, in Europe/Berlin time.
+```
+should output:
+```
+The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 08:29 PM January 23 and ending at 02:29 AM January 24. Message from EAR/FOLF.
+```
+
+## Advanced Usage: Opt in to New WFO Data
 You can specify a boolean value in order to use the new standard as specified in the update.
 Note: This *CAN* and *WILL* sometimes output incorrect data, so use it without any expressed guarantee the data is accurate.
 
