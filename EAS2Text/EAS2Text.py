@@ -139,9 +139,6 @@ class EAS2Text(object):
                 utc_offset = f"{hour_offset:+d}"  # "+6" or "-3"
                 dtOffset = -int(utc_offset) * 3600
 
-            current_year = utc.year
-            is_leap_year = calendar.isleap(current_year)
-
             try:
                 alertStartEpoch = (
                     DT.strptime(self.timeStamp, "%j%H%M")
@@ -161,7 +158,14 @@ class EAS2Text(object):
                 self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                 self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
 
-                if is_leap_year:
+                today = DT.fromtimestamp(alertStartEpoch - dtOffset).today().date()
+
+                current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
+                is_leap_year = calendar.isleap(current_year)
+
+                # today = DT.utcnow().today().date()
+
+                if is_leap_year and today > DT(today.year, 2, 29).date():
                     self.startTime -= timedelta(days=1)  # Adjust for leap year
                     self.endTime -= timedelta(days=1)  # Adjust for leap year
                     
@@ -456,9 +460,6 @@ class EAS2Text(object):
                     utc_offset = f"{hour_offset:+d}"  # "+6" or "-3"
                     dtOffset = -int(utc_offset) * 3600
 
-                current_year = utc.year
-                is_leap_year = calendar.isleap(current_year)
-
                 try:
                     alertStartEpoch = (
                         DT.strptime(self.timeStamp, "%j%H%M")
@@ -478,7 +479,14 @@ class EAS2Text(object):
                     self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                     self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
 
-                    if is_leap_year:
+                    today = DT.fromtimestamp(alertStartEpoch - dtOffset).today().date()
+
+                    current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
+                    is_leap_year = calendar.isleap(current_year)
+
+                    # today = DT.utcnow().today().date()
+
+                    if is_leap_year and today > DT(today.year, 2, 29).date():
                         self.startTime -= timedelta(days=1)  # Adjust for leap year
                         self.endTime -= timedelta(days=1)  # Adjust for leap year
                         
@@ -919,9 +927,6 @@ class EAS2Text(object):
                     utc_offset = f"{hour_offset:+d}"  # "+6" or "-3"
                     dtOffset = -int(utc_offset) * 3600
 
-                current_year = utc.year
-                is_leap_year = calendar.isleap(current_year)
-
                 try:
                     alertStartEpoch = (
                         DT.strptime(self.timeStamp, "%j%H%M")
@@ -941,7 +946,14 @@ class EAS2Text(object):
                     self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                     self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
 
-                    if is_leap_year:
+                    today = DT.fromtimestamp(alertStartEpoch - dtOffset).today().date()
+
+                    current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
+                    is_leap_year = calendar.isleap(current_year)
+
+                    # today = DT.utcnow().today().date()
+
+                    if is_leap_year and today > DT(today.year, 2, 29).date():
                         self.startTime -= timedelta(days=1)  # Adjust for leap year
                         self.endTime -= timedelta(days=1)  # Adjust for leap year
                         
