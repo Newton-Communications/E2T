@@ -1,9 +1,10 @@
 # Standard Library
-from datetime import datetime as DT
+from datetime import datetime as DT, timedelta
 from json import loads, load
 from time import localtime, timezone
 from collections import Counter
 from importlib import resources
+import calendar
 
 # Third-Party
 import requests
@@ -122,9 +123,11 @@ class EAS2Text(object):
             self.timeStamp = eas[-2]
             utc = DT.utcnow()
             if timeZone == None:
-                dtOffset = utc.timestamp() - DT.now().timestamp()
+                dtOffset = 0
+                #dtOffset = utc.timestamp() - DT.now().timestamp()
             if timeZoneTZ == None:
-                dtOffset = utc.timestamp() - DT.now().timestamp()
+                dtOffset = 0
+                #dtOffset = utc.timestamp() - DT.now().timestamp()
             if timeZone != None:
                 dtOffset = -timeZone * 3600
             if timeZoneTZ != None:
@@ -135,6 +138,9 @@ class EAS2Text(object):
                 hour_offset = int(total_seconds // 3600)
                 utc_offset = f"{hour_offset:+d}"  # "+6" or "-3"
                 dtOffset = -int(utc_offset) * 3600
+
+            current_year = utc.year
+            is_leap_year = calendar.isleap(current_year)
 
             try:
                 alertStartEpoch = (
@@ -154,6 +160,11 @@ class EAS2Text(object):
             try:
                 self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                 self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
+
+                if is_leap_year:
+                    self.startTime -= timedelta(days=1)  # Adjust for leap year
+                    self.endTime -= timedelta(days=1)  # Adjust for leap year
+                    
                 if self.startTime.day == self.endTime.day:
                     self.startTimeText = self.startTime.strftime("%I:%M %p")
                     self.endTimeText = self.endTime.strftime("%I:%M %p")
@@ -420,7 +431,6 @@ class EAS2Text(object):
                                 self.WFO = str(self.WFO[0])+";"
                         else:
                             self.WFO = ["Unknown WFO"]
-                
 
                 ## TIME CODE
                 try:
@@ -430,9 +440,11 @@ class EAS2Text(object):
                 self.timeStamp = eas[-2]
                 utc = DT.utcnow()
                 if timeZone == None:
-                    dtOffset = utc.timestamp() - DT.now().timestamp()
+                    dtOffset = 0
+                    #dtOffset = utc.timestamp() - DT.now().timestamp()
                 if timeZoneTZ == None:
-                    dtOffset = utc.timestamp() - DT.now().timestamp()
+                    dtOffset = 0
+                    #dtOffset = utc.timestamp() - DT.now().timestamp()
                 if timeZone != None:
                     dtOffset = -timeZone * 3600
                 if timeZoneTZ != None:
@@ -443,6 +455,9 @@ class EAS2Text(object):
                     hour_offset = int(total_seconds // 3600)
                     utc_offset = f"{hour_offset:+d}"  # "+6" or "-3"
                     dtOffset = -int(utc_offset) * 3600
+
+                current_year = utc.year
+                is_leap_year = calendar.isleap(current_year)
 
                 try:
                     alertStartEpoch = (
@@ -462,6 +477,11 @@ class EAS2Text(object):
                 try:
                     self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                     self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
+
+                    if is_leap_year:
+                        self.startTime -= timedelta(days=1)  # Adjust for leap year
+                        self.endTime -= timedelta(days=1)  # Adjust for leap year
+                        
                     if self.startTime.day == self.endTime.day:
                         self.startTimeText = self.startTime.strftime("%I:%M %p")
                         self.endTimeText = self.endTime.strftime("%I:%M %p")
@@ -883,9 +903,11 @@ class EAS2Text(object):
                 self.timeStamp = eas[-2]
                 utc = DT.utcnow()
                 if timeZone == None:
-                    dtOffset = utc.timestamp() - DT.now().timestamp()
+                    dtOffset = 0
+                    #dtOffset = utc.timestamp() - DT.now().timestamp()
                 if timeZoneTZ == None:
-                    dtOffset = utc.timestamp() - DT.now().timestamp()
+                    dtOffset = 0
+                    #dtOffset = utc.timestamp() - DT.now().timestamp()
                 if timeZone != None:
                     dtOffset = -timeZone * 3600
                 if timeZoneTZ != None:
@@ -896,6 +918,9 @@ class EAS2Text(object):
                     hour_offset = int(total_seconds // 3600)
                     utc_offset = f"{hour_offset:+d}"  # "+6" or "-3"
                     dtOffset = -int(utc_offset) * 3600
+
+                current_year = utc.year
+                is_leap_year = calendar.isleap(current_year)
 
                 try:
                     alertStartEpoch = (
@@ -915,6 +940,11 @@ class EAS2Text(object):
                 try:
                     self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                     self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
+
+                    if is_leap_year:
+                        self.startTime -= timedelta(days=1)  # Adjust for leap year
+                        self.endTime -= timedelta(days=1)  # Adjust for leap year
+                        
                     if self.startTime.day == self.endTime.day:
                         self.startTimeText = self.startTime.strftime("%I:%M %p")
                         self.endTimeText = self.endTime.strftime("%I:%M %p")
@@ -935,6 +965,7 @@ class EAS2Text(object):
                         self.timeStamp,
                         message=f"Error in Time Conversion ({str(E)})",
                     )
+
 
                 ## ORG / EVENT CODE
                 try:
