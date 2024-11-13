@@ -112,6 +112,28 @@ TEXT End Time: 08:29 PM
 The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 02:29 PM and ending at 08:29 PM. Message from EAR/FOLF.
 ```
 
+## NEW FEATURE: List Mode
+EAS2Text has now implemented the ability to list the data that the script uses in order to help with development of external software. It requires the script to be switched from ZCZC mode to List mode in order to use the functionality.
+
+To use List mode:
+```python
+from EAS2Text import EAS2Text
+
+oof = EAS2Text(listMode=True)
+
+print(f"Org List: {oof.orgList}") ## A list of all available originator codes
+print(f"Event List: {oof.evntList}") ## A list of all available event codes
+print(f"Subdivision List: {oof.subdivList}") ## A list of all available subdivision codes
+print(f"FIPS Code List: {oof.fipsList}") ## A list of all available SAME FIPS codes
+```
+should output (with json response truncated due to length):
+```
+Org List: {'PEP': 'A Primary Entry Point System'...}
+Event List: {'BZW': 'a Blizzard Warning'...}
+Subdivision List: {'0': '', '1': 'Northwest'...}
+FIPS Code List: {'10000': 'State of Delaware'...}
+```
+
 ## NEW FEATURE: Canadian Forecast Regions!
 EAS2Text has finally implemented Canadian Forecast Regions and Canada support into the software. However, due to the way Canadian FIPS codes are structured, it requires the software to be switched from the US mode to the Canadian mode.
 
