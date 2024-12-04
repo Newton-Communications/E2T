@@ -5,6 +5,8 @@ from time import localtime, timezone
 from collections import Counter
 from importlib import resources
 import calendar
+import re
+import types
 
 # Third-Party
 import requests
@@ -307,14 +309,90 @@ class EAS2Text(object):
                         self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText} ({self.callsign})"
 
                 elif mode in ["TRILITHIC", "VIAVI", "EASY"]:
+                    def process_location(text):
+                            
+                        if text.startswith("City of"):
+                            text = text.replace("City of", "") + " (city)"
+
+                        if text.startswith("State of"):
+                            text = text.replace("State of", "All of")
+
+                        if text.startswith("District of"):
+                            text = text.replace("District of", "All of District of")
+                            
+                        if " City of" in text:
+                            text = text.replace(" City of", "") + " (city)"
+
+                        if (" State of" in text) and not ("All of" in text):
+                            text = text.replace(" State of", " All of")
+
+                        if (" District of" in text) and not ("All of" in text):
+                            text = text.replace(" District of", " All of District of")
+                        
+                        if " County" in text:
+                            text = text.replace(" County", "")
+                        
+                        if text.startswith("and "):
+                            text = text.replace("and ", "")
+                        
+                        if "; " in text:
+                            text = text.replace("; ", " - ")
+                        
+                        return text
+
+                    strFIPS_value = (
+                        "".join(self.strFIPS) if isinstance(self.strFIPS, types.GeneratorType) else self.strFIPS
+                    )
+
                     self.strFIPS = (
-                        self.strFIPS[:-1]
-                        .replace(",", "")
-                        .replace("; ", " - ")
-                        .replace("and ", "")
+                        ", ".join(map(process_location, map(str.strip, strFIPS_value[:-1].split(", "))))
                         if "000000" not in self.FIPS
                         else "Canada"
                     )
+
+                    self.strFIPS = self.strFIPS.replace(',', '').replace(' and', '')
+
+                    def filterlocation(text):
+                        if text.startswith("City of"):
+                            text = text.replace("City of ", "") + " (city)"
+
+                        if text.startswith("State of"):
+                            text = text.replace("State of", "All of")
+
+                        if text.startswith("District of"):
+                            text = text.replace("District of", "All of District of")
+                            
+                        if " City of" in text:
+                            text = text.replace(" City of", "") + " (city)"
+
+                        if (" State of" in text) and not ("All of" in text):
+                            text = text.replace(" State of", " All of")
+
+                        if (" District of" in text) and not ("All of" in text):
+                            text = text.replace(" District of", " All of District of")
+                        
+                        if " County" in text:
+                            text = text.replace(" County", "")
+                        
+                        if text.startswith("and "):
+                            text = text.replace("and ", "")
+
+                        return text
+
+                    FIPSStrings = []
+                    for loc in self.FIPSText:
+                        loc2 = loc.split(", ")
+                        if len(loc2) == 1:
+                            loc3 = filterlocation(loc2[0])
+                        elif len(loc2) == 2:
+                            loc3 = filterlocation(loc2[0]) + " " + loc2[1]
+                        elif len(loc2) > 2:
+                            loc3 = filterlocation(" ".join(loc2[:-1])) + " " + loc2[-1]
+
+                        FIPSStrings.append(loc3)
+
+                    self.FIPSText = FIPSStrings
+
                     if self.strFIPS == "Canada":
                         bigFips = "for"
                     else:
@@ -628,15 +706,93 @@ class EAS2Text(object):
                             self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText} ({self.callsign})"
 
                     elif mode in ["TRILITHIC", "VIAVI", "EASY"]:
-                        self.strFIPS = (
-                            self.strFIPS[:-1]
-                            .replace(",", "")
-                            .replace("; ", " - ")
-                            .replace("and ", "")
-                            if "000000" not in self.FIPS
-                            else "The United States"
+                        
+
+                        def process_location(text):
+                            
+                            if text.startswith("City of"):
+                                text = text.replace("City of", "") + " (city)"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "All of")
+
+                            if text.startswith("District of"):
+                                text = text.replace("District of", "All of District of")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " (city)"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", " All of")
+
+                            if (" District of" in text) and not ("All of" in text):
+                                text = text.replace(" District of", " All of District of")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "")
+                            
+                            if "; " in text:
+                                text = text.replace("; ", " - ")
+                            
+                            return text
+
+                        strFIPS_value = (
+                            "".join(self.strFIPS) if isinstance(self.strFIPS, types.GeneratorType) else self.strFIPS
                         )
-                        if self.strFIPS == "The United States":
+
+                        self.strFIPS = (
+                            ", ".join(map(process_location, map(str.strip, strFIPS_value[:-1].split(", "))))
+                            if "000000" not in self.FIPS
+                            else "Canada"
+                        )
+
+                        self.strFIPS = self.strFIPS.replace(',', '').replace(' and', '')
+
+                        def filterlocation(text):
+                            if text.startswith("City of"):
+                               text = text.replace("City of ", "") + " (city)"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "All of")
+
+                            if text.startswith("District of"):
+                                text = text.replace("District of", "All of District of")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " (city)"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", " All of")
+
+                            if (" District of" in text) and not ("All of" in text):
+                                text = text.replace(" District of", " All of District of")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "")
+
+                            return text
+
+                        FIPSStrings = []
+                        for loc in self.FIPSText:
+                            loc2 = loc.split(", ")
+                            if len(loc2) == 1:
+                                loc3 = filterlocation(loc2[0])
+                            elif len(loc2) == 2:
+                                loc3 = filterlocation(loc2[0]) + " " + loc2[1]
+                            elif len(loc2) > 2:
+                                loc3 = filterlocation(" ".join(loc2[:-1])) + " " + loc2[-1]
+
+                            FIPSStrings.append(loc3)
+
+                        self.FIPSText = FIPSStrings
+
+                        if self.strFIPS == "Canada":
                             bigFips = "for"
                         else:
                             bigFips = "for the following counties:"
@@ -647,6 +803,7 @@ class EAS2Text(object):
                         if self.org == "CIV":
                             self.orgText = "The Civil Authorities"
                         self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} {bigFips} {self.strFIPS}. Effective Until {self.endTimeText}. ({self.callsign})"
+
 
                     elif mode in ["BURK"]:
                         if self.org == "EAS":
@@ -1096,15 +1253,91 @@ class EAS2Text(object):
                             self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText} ({self.callsign})"
 
                     elif mode in ["TRILITHIC", "VIAVI", "EASY"]:
-                        self.strFIPS = (
-                            self.strFIPS[:-1]
-                            .replace(",", "")
-                            .replace("; ", " - ")
-                            .replace("and ", "")
-                            if "000000" not in self.FIPS
-                            else "The United States"
+                        def process_location(text):
+                            
+                            if text.startswith("City of"):
+                                text = text.replace("City of", "") + " (city)"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "All of")
+
+                            if text.startswith("District of"):
+                                text = text.replace("District of", "All of District of")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " (city)"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", " All of")
+
+                            if (" District of" in text) and not ("All of" in text):
+                                text = text.replace(" District of", " All of District of")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "")
+                            
+                            if "; " in text:
+                                text = text.replace("; ", " - ")
+                            
+                            return text
+
+                        strFIPS_value = (
+                            "".join(self.strFIPS) if isinstance(self.strFIPS, types.GeneratorType) else self.strFIPS
                         )
-                        if self.strFIPS == "The United States":
+
+                        self.strFIPS = (
+                            ", ".join(map(process_location, map(str.strip, strFIPS_value[:-1].split(", "))))
+                            if "000000" not in self.FIPS
+                            else "Canada"
+                        )
+
+                        self.strFIPS = self.strFIPS.replace(',', '').replace(' and', '')
+
+                        def filterlocation(text):
+                            if text.startswith("City of"):
+                               text = text.replace("City of ", "") + " (city)"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "All of")
+
+                            if text.startswith("District of"):
+                                text = text.replace("District of", "All of District of")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " (city)"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", " All of")
+
+                            if (" District of" in text) and not ("All of" in text):
+                                text = text.replace(" District of", " All of District of")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "")
+
+                            return text
+
+                        FIPSStrings = []
+                        for loc in self.FIPSText:
+                            loc2 = loc.split(", ")
+                            if len(loc2) == 1:
+                                loc3 = filterlocation(loc2[0])
+                            elif len(loc2) == 2:
+                                loc3 = filterlocation(loc2[0]) + " " + loc2[1]
+                            elif len(loc2) > 2:
+                                loc3 = filterlocation(" ".join(loc2[:-1])) + " " + loc2[-1]
+
+                            FIPSStrings.append(loc3)
+
+                        self.FIPSText = FIPSStrings
+
+                        if self.strFIPS == "Canada":
                             bigFips = "for"
                         else:
                             bigFips = "for the following counties:"
