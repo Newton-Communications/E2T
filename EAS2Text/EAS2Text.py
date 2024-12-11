@@ -7,6 +7,7 @@ from importlib import resources
 import calendar
 import re
 import types
+import platform
 
 # Third-Party
 import requests
@@ -110,6 +111,7 @@ class EAS2Text(object):
 
         if listMode == False and sameData != "NONE":
             if canada:
+                # Canada Implementation
                 stats = self.same_ca
 
                 self.FIPS = []
@@ -118,7 +120,7 @@ class EAS2Text(object):
                 self.EASData = sameData
                 # Canada FIPS Code Checking (Identifier: Fox 002)
 
-                ## CHECKING FOR VALID SAME
+                ## CHECKING FOR VALID SAME - Canada
                 if sameData == "":
                     raise MissingSAME()
                 elif sameData.startswith("NNNN"):
@@ -163,7 +165,7 @@ class EAS2Text(object):
                         FIPSText[-1] = f"and {FIPSText[-1]}"
                     self.strFIPS = "; ".join(self.FIPSText).strip() + ";"
 
-                ## TIME CODE
+                ## TIME CODE - Canada
                 try:
                     self.purge = [eas[-3][:2], eas[-3][2:]]
                 except IndexError:
@@ -172,10 +174,8 @@ class EAS2Text(object):
                 utc = DT.utcnow()
                 if timeZone == None:
                     dtOffset = 0
-                    #dtOffset = utc.timestamp() - DT.now().timestamp()
                 if timeZoneTZ == None:
                     dtOffset = 0
-                    #dtOffset = utc.timestamp() - DT.now().timestamp()
                 if timeZone != None:
                     dtOffset = -timeZone * 3600
                 if timeZoneTZ != None:
@@ -211,8 +211,6 @@ class EAS2Text(object):
                     current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
                     is_leap_year = calendar.isleap(current_year)
 
-                    # today = DT.utcnow().today().date()
-
                     if is_leap_year and today > DT(today.year, 2, 29).date():
                         self.startTime -= timedelta(days=1)  # Adjust for leap year
                         self.endTime -= timedelta(days=1)  # Adjust for leap year
@@ -238,7 +236,7 @@ class EAS2Text(object):
                         message=f"Error in Time Conversion ({str(E)})",
                     )
 
-                ## ORG / EVENT CODE
+                ## ORG / EVENT CODE - Canada
                 try:
                     self.org = str(eas[0])
                     self.evnt = str(eas[1])
@@ -266,11 +264,12 @@ class EAS2Text(object):
                         message=f"Error in ORG / EVNT Decoding ({str(E)})",
                     )
 
-                ## CALLSIGN CODE"
+                ## CALLSIGN CODE - Canada
                 self.callsign = eas[-1].strip()
 
-                ## FINAL TEXT
+                ## FINAL TEXT - Canada
                 if mode == "TFT":
+                    # TFT Mode - Canada
                     self.strFIPS = (
                         self.strFIPS[:-1]
                         .replace(",", "")
@@ -291,6 +290,7 @@ class EAS2Text(object):
                         self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. message from {self.callsign}.".upper()
 
                 elif mode.startswith("SAGE"):
+                    # SAGE Mode - Canada
                     if self.org == "CIV":
                         self.orgText = "The Civil Authorities"
                     self.strFIPS = self.strFIPS[:-1].replace(";", ",")
@@ -309,6 +309,7 @@ class EAS2Text(object):
                         self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText} ({self.callsign})"
 
                 elif mode in ["TRILITHIC", "VIAVI", "EASY"]:
+                    # Trilithic Mode - Canada
                     def process_location(text):
                             
                         if text.startswith("City of"):
@@ -406,6 +407,7 @@ class EAS2Text(object):
                     self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} {bigFips} {self.strFIPS}. Effective Until {self.endTimeText}. ({self.callsign})"
 
                 elif mode in ["BURK"]:
+                    # Burk Mode - Canada
                     if self.org == "EAS":
                         self.orgText = "A Broadcast station or cable system"
                     elif self.org == "CIV":
@@ -424,21 +426,308 @@ class EAS2Text(object):
                     self.evntText = " ".join(self.evntText.split(" ")[1:]).upper()
                     self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} on {self.startTimeText} effective until {self.endTimeText}."
 
-                elif mode in ["DAS", "DASDEC", "MONROE"]:
+                elif mode in ["DAS", "DASDEC", "MONROE", "ONENET", "ONENET SE"]:
+                    # DASDEC Software <=v2.9 Mode - Canada
                     self.orgText = self.orgText.upper()
                     self.evntText = self.evntText.upper()
+                    # Function to process the FIPS string and check for parishes
+                    def process_fips_string(fips_string):
+                        result = []
+                        states = {}  # To track counties/cities/parishes per state
+                        only_parishes = True  # Flag to check if only parishes exist
+                        parts = [part.strip() for part in fips_string.split(';') if part.strip()]
+
+                        for part in parts:
+                            part = re.sub(r'^\s*and\s+', '', part)
+                            
+                            # Match "City of", "County", or "Parish" and extract name and state
+                            match = re.match(r'(City of )?(.*?)( County| Parish)?, (\w{2})', part)
+                            state_match = re.match(r'State of (.+)', part)
+
+                            if match:
+                                city_prefix, name, locality_type, state = match.groups()
+                                clean_name = name
+
+                                # Determine locality type and adjust name
+                                if locality_type == " Parish":
+                                    pass  # No suffix needed, keep the name as is
+                                elif city_prefix:
+                                    clean_name += " (city)"
+                                    only_parishes = False  # Contains city
+                                else:
+                                    only_parishes = False  # Contains county
+
+                                # Track states and their counties/cities/parishes
+                                if state not in states:
+                                    states[state] = []
+                                states[state].append((clean_name, state))
+
+                            elif state_match:
+                                # Handle standalone states like "State of Washington"
+                                state_name = state_match.group(1)
+                                result.append(state_name)  # Add state directly to result
+
+                        # Build the result with correct formatting
+                        for state, entries in states.items():
+                            for i, (name, _) in enumerate(entries):
+                                # Add state abbreviation only to the last entry for the state
+                                if i == len(entries) - 1:
+                                    result.append(f"{name}, {state}")
+                                else:
+                                    result.append(name)
+
+                        # Join results and format properly
+                        final_result = '; '.join(result).replace(' and ', ' ')
+
+                        # Fix "City of" for all independent cities and ensure state formatting
+                        final_result = re.sub(r'City of (.*?)( \(city\))?,', r'\1 (city),', final_result)
+                        return final_result + ';', only_parishes
+
+                    # Process the input string
+                    self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
+
+                    self.strFIPS = self.strFIPS.upper()
                     self.startTimeText = self.startTime.strftime(
                         "%I:%M %p ON %b %d, %Y"
                     ).upper()
                     self.endTimeText = self.endTime.strftime(
                         "%I:%M %p %b %d, %Y"
                     ).upper()
-                    self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES/AREAS: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
+                    self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING {'AREAS' if self.onlyParishes else 'COUNTIES/AREAS'}: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
+
+                elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
+                    # DASDEC Software >=v3.0 Mode - Canada
+                    self.orgText = self.orgText
+                    self.evntText = self.evntText.upper()
+
+                    # Function to process the FIPS string and check for parishes
+                    def process_fips_string(fips_string):
+                        result = []
+                        states = {}  # To track counties/cities/parishes per state
+                        only_parishes = True  # Flag to check if only parishes exist
+                        parts = [part.strip() for part in fips_string.split(';') if part.strip()]
+
+                        for part in parts:
+                            part = re.sub(r'^\s*and\s+', '', part)
+
+                            # Match "City of", "County", or "Parish" and extract name and state
+                            match = re.match(r'(City of )?(.*?)( County| Parish)?, (\w{2})', part)
+                            state_match = re.match(r'State of (.+)', part)
+
+                            if match:
+                                city_prefix, name, locality_type, state = match.groups()
+                                clean_name = name
+
+                                # Determine locality type and adjust name
+                                if locality_type == " Parish":
+                                    pass  # No suffix needed, keep the name as is
+                                elif city_prefix:
+                                    clean_name += " (city)"
+                                    only_parishes = False  # Contains city
+                                else:
+                                    only_parishes = False  # Contains county
+
+                                # Track states and their counties/cities/parishes
+                                if state not in states:
+                                    states[state] = []
+                                states[state].append((clean_name, state))
+
+                            elif state_match:
+                                # Handle standalone states like "State of Washington"
+                                state_name = state_match.group(1)
+                                result.append(state_name)  # Add state directly to result
+
+                        # Build the result with correct formatting
+                        for state, entries in states.items():
+                            for i, (name, _) in enumerate(entries):
+                                # Add state abbreviation only to the last entry for the state
+                                if i == len(entries) - 1:
+                                    result.append(f"{name}, {state}")
+                                else:
+                                    result.append(name)
+
+                        # Join results and format properly
+                        final_result = '; '.join(result).replace(' and ', ' ')
+
+                        # Fix "City of" for all independent cities and ensure state formatting
+                        final_result = re.sub(r'City of (.*?)( \(city\))?,', r'\1 (city),', final_result)
+                        return final_result + ';', only_parishes
+
+                    # Process the input string
+                    self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
+
+                    # Use the appropriate hour format specifier based on the operating system
+                    if platform.system() == "Windows":
+                        hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                    else:
+                        hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                    if self.startTime.date() == self.endTime.date():
+                        # Same day
+                        self.startTimeText = self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                        self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                    else:
+                        # Different days
+                        self.startTimeText = (
+                            self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            + self.startTime.strftime(" ON %b %d, %Y").upper()
+                        )
+                        self.endTimeText = (
+                            self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                            + self.endTime.strftime(" %b %d, %Y").upper()
+                        )
+
+                    self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. Message from {self.callsign}."
+
+
+                elif mode in ["HollyAnne", "Holly Anne", "Holly-Anne", "HU-961", "MIP-921", "MIP-921e", "HU961", "MIP921", "MIP921e"]:
+                    # HollyAnne Mode - Canada
+                    if self.org == "EAS":
+                        self.orgText = "CABLE/BROADCAST SYSTEM"
+                    elif self.org == "CIV":
+                        self.orgText = "AUTHORITIES"
+                    elif self.org == "WXR":
+                        self.orgText = "ENVIRONMENT CANADA"
+
+                    self.evntText = self.evntText.upper()
+
+                    self.strFIPS = self.strFIPS.replace(',', '')
+
+                    def filterlocation(text):
+                        if text.startswith("City of"):
+                            text = text.replace("City of ", "") + " CITY"
+
+                        if text.startswith("State of"):
+                            text = text.replace("State of", "")
+                            
+                        if " City of" in text:
+                            text = text.replace(" City of", "") + " CITY"
+
+                        if (" State of" in text) and not ("All of" in text):
+                            text = text.replace(" State of", "")
+                        
+                        if " County" in text:
+                            text = text.replace(" County", "")
+                        
+                        if text.startswith("and "):
+                            text = text.replace("and ", "AND ")
+
+                        return text
+
+                    # Collect all state abbreviations
+                    state_abbreviations = []
+                    for loc in self.FIPSText:
+                        loc_parts = loc.split(", ")
+                        if len(loc_parts) > 1:  # Ensure there is a state abbreviation
+                            state_abbreviations.append(loc_parts[-1])
+
+                    unique_states = set(state_abbreviations)  # Check for unique states
+
+                    FIPSStrings = []
+                    for loc in self.FIPSText:
+                        loc_parts = loc.split(", ")
+                        if len(loc_parts) == 2:  # Contains a location and a state abbreviation
+                            location = loc_parts[0]
+                            state = loc_parts[1]
+                            if len(unique_states) == 1:  # If only one state is present
+                                loc3 = filterlocation(location).upper()
+                            else:  # If multiple states are present, remove comma but keep state
+                                loc3 = filterlocation(location).upper() + " " + state.upper()
+                        elif len(loc_parts) > 2:  # Multiple components, e.g., "City of X, State, XX"
+                            loc3 = filterlocation(" ".join(loc_parts[:-1])).upper() + " " + loc_parts[-1].upper()
+                        else:  # Single location without state abbreviation
+                            loc3 = filterlocation(loc_parts[0]).upper()
+
+                        FIPSStrings.append(loc3)
+
+                    # Update FIPSText and strFIPS
+                    self.FIPSText = FIPSStrings
+                    self.strFIPS = ", ".join(self.FIPSText).strip()
+
+                    # Remove ", AND" if it exists
+                    if ", AND " in self.strFIPS:
+                        self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+                    
+                    self.EASText = f"THE {self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES: {self.strFIPS} BEGINNING AT {self.startTimeText} AND ENDING AT {self.endTimeText}. MESSAGE FROM {self.callsign}."
+
+                elif mode in ["EAS1CG", "EAS-1", "EAS1", "EAS1-CG", "EAS-1CG", "Gorman-Redlich", "GormanRedlich", "Gorman Redlich"]:
+                    # Gorman Redlich Mode - Canada
+                    self.evntText = self.evntText.upper()
+
+                    # Use the appropriate format specifier based on the operating system
+                    if platform.system() == "Windows":
+                        hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                    else:
+                        hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                    if self.startTime.date() == self.endTime.date():
+                        # Same day
+                        self.startTimeText = self.startTime.strftime(
+                            f"{hour_format}:%M %p ON %B %d, %Y"
+                        ).upper()
+                        self.endTimeText = self.endTime.strftime(
+                            f"{hour_format}:%M %p"
+                        ).upper()
+                    else:
+                        # Different days
+                        self.startTimeText = self.startTime.strftime(
+                            f"{hour_format}:%M %p ON %B %d, %Y"
+                        ).upper()
+                        self.endTimeText = self.endTime.strftime(
+                            f"{hour_format}:%M %p ON %B %d, %Y"
+                        ).upper()
+
+                    def filterlocation(text):
+                        if text.startswith("City of"):
+                            text = text.replace("City of ", "") + " CITY"
+
+                        if text.startswith("State of"):
+                            text = text.replace("State of", "")
+                            
+                        if " City of" in text:
+                            text = text.replace(" City of", "") + " CITY"
+
+                        if (" State of" in text) and not ("All of" in text):
+                            text = text.replace(" State of", "")
+                        
+                        if " County" in text:
+                            text = text.replace(" County", "")
+                        
+                        if text.startswith("and "):
+                            text = text.replace("and ", "AND ")
+
+                        return text
+                    
+                    FIPSStrings = []
+                    for loc in self.FIPSText:
+                        loc_parts = loc.split(", ")
+                        if len(loc_parts) == 2:  # Contains a location and a state abbreviation
+                            location = loc_parts[0]
+                            state = loc_parts[1]
+                            loc3 = filterlocation(location).upper() + " " + state.upper()
+                        elif len(loc_parts) > 2:  # Multiple components, e.g., "City of X, State, XX"
+                            loc3 = filterlocation(" ".join(loc_parts[:-1])).upper() + " " + loc_parts[-1].upper()
+                        else:  # Single location without state abbreviation
+                            loc3 = filterlocation(loc_parts[0]).upper()
+
+                        FIPSStrings.append(loc3)
+
+                    # Update FIPSText and strFIPS
+                    self.FIPSText = FIPSStrings
+                    self.strFIPS = ", ".join(self.FIPSText).strip()
+
+                    # Remove ", AND" if it exists
+                    if ", AND " in self.strFIPS:
+                        self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+
+
+                    self.EASText = f"{self.evntText} HAS BEEN ISSUED FOR {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign}."
 
                 else:
                     self.EASText = f"{self.orgText} has issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText}. Message from {self.callsign}."
 
             else:
+                # United States Implementation
                 stats = self.same_us
                 locality2 = self.wfo_us
                 ccl2 = self.ccl_us
@@ -450,11 +739,13 @@ class EAS2Text(object):
 
                 if not newWFO:
 
+                    # United States Old Weather Forecasting Office Mode (Referred to as United States Old WFO)
+
                     self.WFO = []
                     self.WFOText = []
                     self.StateInSAME = False
 
-                    ## CHECKING FOR VALID SAME
+                    ## CHECKING FOR VALID SAME - United States Old WFO
                     if sameData == "":
                         raise MissingSAME()
                     elif sameData.startswith("NNNN"):
@@ -472,7 +763,7 @@ class EAS2Text(object):
                             try:
                                 assert len(i) == 6
                                 assert self.__isInt__(i) == True
-                                ## FIPS CODE
+                                ## FIPS CODE - United States Old WFO
                                 if i not in self.FIPS:
                                     self.FIPS.append(str(i))
                             except AssertionError:
@@ -488,7 +779,7 @@ class EAS2Text(object):
                                 
                                 try:
                                     if(str(eas[0]) == "WXR") and ("State" not in same):
-                                        ## WXR LOCALITY
+                                        ## WXR LOCALITY - United States Old WFO
                                         wfo = locality2["SAME"][i[1:]][0]["wfo"]
                                         if wfo:
                                             self.WFOText.append(
@@ -529,7 +820,7 @@ class EAS2Text(object):
                             FIPSText[-1] = f"and {FIPSText[-1]}"
                         self.strFIPS = "; ".join(self.FIPSText).strip() + ";"
 
-                        ## WXR LOCALITY MULTIPLE
+                        ## WXR LOCALITY MULTIPLE - United States Old WFO
                         if(str(eas[0]) == "WXR"):
                             if (self.WFOText != "" and self.WFOText is not None) and (not self.StateInSAME):
                                 if len(self.WFOText) > 1:
@@ -560,7 +851,7 @@ class EAS2Text(object):
                             else:
                                 self.WFO = ["Unknown WFO"]
 
-                    ## TIME CODE
+                    ## TIME CODE - United States Old WFO
                     try:
                         self.purge = [eas[-3][:2], eas[-3][2:]]
                     except IndexError:
@@ -569,10 +860,8 @@ class EAS2Text(object):
                     utc = DT.utcnow()
                     if timeZone == None:
                         dtOffset = 0
-                        #dtOffset = utc.timestamp() - DT.now().timestamp()
                     if timeZoneTZ == None:
                         dtOffset = 0
-                        #dtOffset = utc.timestamp() - DT.now().timestamp()
                     if timeZone != None:
                         dtOffset = -timeZone * 3600
                     if timeZoneTZ != None:
@@ -608,8 +897,6 @@ class EAS2Text(object):
                         current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
                         is_leap_year = calendar.isleap(current_year)
 
-                        # today = DT.utcnow().today().date()
-
                         if is_leap_year and today > DT(today.year, 2, 29).date():
                             self.startTime -= timedelta(days=1)  # Adjust for leap year
                             self.endTime -= timedelta(days=1)  # Adjust for leap year
@@ -635,7 +922,7 @@ class EAS2Text(object):
                             message=f"Error in Time Conversion ({str(E)})",
                         )
 
-                    ## ORG / EVENT CODE
+                    ## ORG / EVENT CODE - United States Old WFO
                     try:
                         self.org = str(eas[0])
                         self.evnt = str(eas[1])
@@ -663,11 +950,12 @@ class EAS2Text(object):
                             message=f"Error in ORG / EVNT Decoding ({str(E)})",
                         )
 
-                    ## CALLSIGN CODE"
+                    ## CALLSIGN CODE - United States Old WFO
                     self.callsign = eas[-1].strip()
 
-                    ## FINAL TEXT
+                    ## FINAL TEXT - United States Old WFO
                     if mode == "TFT":
+                        # TFT Mode - United States Old WFO
                         self.strFIPS = (
                             self.strFIPS[:-1]
                             .replace(",", "")
@@ -688,6 +976,7 @@ class EAS2Text(object):
                             self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. message from {self.callsign}.".upper()
 
                     elif mode.startswith("SAGE"):
+                        # SAGE Mode - United States Old WFO
                         if self.org == "CIV":
                             self.orgText = "The Civil Authorities"
                         self.strFIPS = self.strFIPS[:-1].replace(";", ",")
@@ -706,8 +995,7 @@ class EAS2Text(object):
                             self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText} ({self.callsign})"
 
                     elif mode in ["TRILITHIC", "VIAVI", "EASY"]:
-                        
-
+                        # Trilithic Mode - United States Old WFO
                         def process_location(text):
                             
                             if text.startswith("City of"):
@@ -806,6 +1094,7 @@ class EAS2Text(object):
 
 
                     elif mode in ["BURK"]:
+                        # Burk Mode - United States Old WFO
                         if self.org == "EAS":
                             self.orgText = "A Broadcast station or cable system"
                         elif self.org == "CIV":
@@ -824,16 +1113,301 @@ class EAS2Text(object):
                         self.evntText = " ".join(self.evntText.split(" ")[1:]).upper()
                         self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} on {self.startTimeText} effective until {self.endTimeText}."
 
-                    elif mode in ["DAS", "DASDEC", "MONROE"]:
+                    elif mode in ["DAS", "DASDEC", "MONROE", "ONENET", "ONENET SE"]:
+                        # DASDEC Software <=v2.9 Mode - United States Old WFO
                         self.orgText = self.orgText.upper()
                         self.evntText = self.evntText.upper()
+                        # Function to process the FIPS string and check for parishes
+                        def process_fips_string(fips_string):
+                            result = []
+                            states = {}  # To track counties/cities/parishes per state
+                            only_parishes = True  # Flag to check if only parishes exist
+                            parts = [part.strip() for part in fips_string.split(';') if part.strip()]
+
+                            for part in parts:
+                                part = re.sub(r'^\s*and\s+', '', part)
+                                
+                                # Match "City of", "County", or "Parish" and extract name and state
+                                match = re.match(r'(City of )?(.*?)( County| Parish)?, (\w{2})', part)
+                                state_match = re.match(r'State of (.+)', part)
+
+                                if match:
+                                    city_prefix, name, locality_type, state = match.groups()
+                                    clean_name = name
+
+                                    # Determine locality type and adjust name
+                                    if locality_type == " Parish":
+                                        pass  # No suffix needed, keep the name as is
+                                    elif city_prefix:
+                                        clean_name += " (city)"
+                                        only_parishes = False  # Contains city
+                                    else:
+                                        only_parishes = False  # Contains county
+
+                                    # Track states and their counties/cities/parishes
+                                    if state not in states:
+                                        states[state] = []
+                                    states[state].append((clean_name, state))
+
+                                elif state_match:
+                                    # Handle standalone states like "State of Washington"
+                                    state_name = state_match.group(1)
+                                    result.append(state_name)  # Add state directly to result
+
+                            # Build the result with correct formatting
+                            for state, entries in states.items():
+                                for i, (name, _) in enumerate(entries):
+                                    # Add state abbreviation only to the last entry for the state
+                                    if i == len(entries) - 1:
+                                        result.append(f"{name}, {state}")
+                                    else:
+                                        result.append(name)
+
+                            # Join results and format properly
+                            final_result = '; '.join(result).replace(' and ', ' ')
+
+                            # Fix "City of" for all independent cities and ensure state formatting
+                            final_result = re.sub(r'City of (.*?)( \(city\))?,', r'\1 (city),', final_result)
+                            return final_result + ';', only_parishes
+
+                        # Process the input string
+                        self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
+
+                        self.strFIPS = self.strFIPS.upper()
                         self.startTimeText = self.startTime.strftime(
                             "%I:%M %p ON %b %d, %Y"
                         ).upper()
                         self.endTimeText = self.endTime.strftime(
                             "%I:%M %p %b %d, %Y"
                         ).upper()
-                        self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES/AREAS: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
+                        self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING {'AREAS' if self.onlyParishes else 'COUNTIES/AREAS'}: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
+
+                    elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
+                        # DASDEC Software >=v3.0 Mode - United States Old WFO
+                        self.orgText = self.orgText
+                        self.evntText = self.evntText.upper()
+
+                        # Function to process the FIPS string and check for parishes
+                        def process_fips_string(fips_string):
+                            result = []
+                            states = {}  # To track counties/cities/parishes per state
+                            only_parishes = True  # Flag to check if only parishes exist
+                            parts = [part.strip() for part in fips_string.split(';') if part.strip()]
+
+                            for part in parts:
+                                part = re.sub(r'^\s*and\s+', '', part)
+
+                                # Match "City of", "County", or "Parish" and extract name and state
+                                match = re.match(r'(City of )?(.*?)( County| Parish)?, (\w{2})', part)
+                                state_match = re.match(r'State of (.+)', part)
+
+                                if match:
+                                    city_prefix, name, locality_type, state = match.groups()
+                                    clean_name = name
+
+                                    # Determine locality type and adjust name
+                                    if locality_type == " Parish":
+                                        pass  # No suffix needed, keep the name as is
+                                    elif city_prefix:
+                                        clean_name += " (city)"
+                                        only_parishes = False  # Contains city
+                                    else:
+                                        only_parishes = False  # Contains county
+
+                                    # Track states and their counties/cities/parishes
+                                    if state not in states:
+                                        states[state] = []
+                                    states[state].append((clean_name, state))
+
+                                elif state_match:
+                                    # Handle standalone states like "State of Washington"
+                                    state_name = state_match.group(1)
+                                    result.append(state_name)  # Add state directly to result
+
+                            # Build the result with correct formatting
+                            for state, entries in states.items():
+                                for i, (name, _) in enumerate(entries):
+                                    # Add state abbreviation only to the last entry for the state
+                                    if i == len(entries) - 1:
+                                        result.append(f"{name}, {state}")
+                                    else:
+                                        result.append(name)
+
+                            # Join results and format properly
+                            final_result = '; '.join(result).replace(' and ', ' ')
+
+                            # Fix "City of" for all independent cities and ensure state formatting
+                            final_result = re.sub(r'City of (.*?)( \(city\))?,', r'\1 (city),', final_result)
+                            return final_result + ';', only_parishes
+
+                        # Process the input string
+                        self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
+
+                        # Use the appropriate hour format specifier based on the operating system
+                        if platform.system() == "Windows":
+                            hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                        else:
+                            hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                        if self.startTime.date() == self.endTime.date():
+                            # Same day
+                            self.startTimeText = self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                        else:
+                            # Different days
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + self.startTime.strftime(" ON %b %d, %Y").upper()
+                            )
+                            self.endTimeText = (
+                                self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                                + self.endTime.strftime(" %b %d, %Y").upper()
+                            )
+
+                        self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. Message from {self.callsign}."
+
+                    elif mode in ["HollyAnne", "Holly Anne", "Holly-Anne", "HU-961", "MIP-921", "MIP-921e", "HU961", "MIP921", "MIP921e"]:
+                        # HollyAnne Mode - United States Old WFO
+                        if self.org == "EAS":
+                            self.orgText = "CABLE/BROADCAST SYSTEM"
+                        elif self.org == "CIV":
+                            self.orgText = "AUTHORITIES"
+                        elif self.org == "WXR":
+                            self.orgText = "NATIONAL WEATHER SERVICE"
+
+                        self.evntText = self.evntText.upper()
+
+                        self.strFIPS = self.strFIPS.replace(',', '')
+
+                        def filterlocation(text):
+                            if text.startswith("City of"):
+                               text = text.replace("City of ", "") + " CITY"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " CITY"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", "")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "AND ")
+
+                            return text
+
+                        # Collect all state abbreviations
+                        state_abbreviations = []
+                        for loc in self.FIPSText:
+                            loc_parts = loc.split(", ")
+                            if len(loc_parts) > 1:  # Ensure there is a state abbreviation
+                                state_abbreviations.append(loc_parts[-1])
+
+                        unique_states = set(state_abbreviations)  # Check for unique states
+
+                        FIPSStrings = []
+                        for loc in self.FIPSText:
+                            loc_parts = loc.split(", ")
+                            if len(loc_parts) == 2:  # Contains a location and a state abbreviation
+                                location = loc_parts[0]
+                                state = loc_parts[1]
+                                if len(unique_states) == 1:  # If only one state is present
+                                    loc3 = filterlocation(location).upper()
+                                else:  # If multiple states are present, remove comma but keep state
+                                    loc3 = filterlocation(location).upper() + " " + state.upper()
+                            elif len(loc_parts) > 2:  # Multiple components, e.g., "City of X, State, XX"
+                                loc3 = filterlocation(" ".join(loc_parts[:-1])).upper() + " " + loc_parts[-1].upper()
+                            else:  # Single location without state abbreviation
+                                loc3 = filterlocation(loc_parts[0]).upper()
+
+                            FIPSStrings.append(loc3)
+
+                        # Update FIPSText and strFIPS
+                        self.FIPSText = FIPSStrings
+                        self.strFIPS = ", ".join(self.FIPSText).strip()
+
+                        # Remove ", AND" if it exists
+                        if ", AND " in self.strFIPS:
+                            self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+                        
+                        self.EASText = f"THE {self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES: {self.strFIPS} BEGINNING AT {self.startTimeText} AND ENDING AT {self.endTimeText}. MESSAGE FROM {self.callsign}."
+
+                    elif mode in ["EAS1CG", "EAS-1", "EAS1", "EAS1-CG", "EAS-1CG", "Gorman-Redlich", "GormanRedlich", "Gorman Redlich"]:
+                        # Gorman Redlich Mode - United States Old WFO
+                        self.evntText = self.evntText.upper()
+
+                        # Use the appropriate format specifier based on the operating system
+                        if platform.system() == "Windows":
+                            hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                        else:
+                            hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                        if self.startTime.date() == self.endTime.date():
+                            # Same day
+                            self.startTimeText = self.startTime.strftime(
+                                f"{hour_format}:%M %p ON %B %d, %Y"
+                            ).upper()
+                            self.endTimeText = self.endTime.strftime(
+                                f"{hour_format}:%M %p"
+                            ).upper()
+                        else:
+                            # Different days
+                            self.startTimeText = self.startTime.strftime(
+                                f"{hour_format}:%M %p ON %B %d, %Y"
+                            ).upper()
+                            self.endTimeText = self.endTime.strftime(
+                                f"{hour_format}:%M %p ON %B %d, %Y"
+                            ).upper()
+
+                        def filterlocation(text):
+                            if text.startswith("City of"):
+                               text = text.replace("City of ", "") + " CITY"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " CITY"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", "")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "AND ")
+
+                            return text
+                        
+                        FIPSStrings = []
+                        for loc in self.FIPSText:
+                            loc_parts = loc.split(", ")
+                            if len(loc_parts) == 2:  # Contains a location and a state abbreviation
+                                location = loc_parts[0]
+                                state = loc_parts[1]
+                                loc3 = filterlocation(location).upper() + " " + state.upper()
+                            elif len(loc_parts) > 2:  # Multiple components, e.g., "City of X, State, XX"
+                                loc3 = filterlocation(" ".join(loc_parts[:-1])).upper() + " " + loc_parts[-1].upper()
+                            else:  # Single location without state abbreviation
+                                loc3 = filterlocation(loc_parts[0]).upper()
+
+                            FIPSStrings.append(loc3)
+
+                        # Update FIPSText and strFIPS
+                        self.FIPSText = FIPSStrings
+                        self.strFIPS = ", ".join(self.FIPSText).strip()
+
+                        # Remove ", AND" if it exists
+                        if ", AND " in self.strFIPS:
+                            self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+
+
+                        self.EASText = f"{self.evntText} HAS BEEN ISSUED FOR {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign}."
 
                     else:
                         if self.org == "WXR":
@@ -842,9 +1416,11 @@ class EAS2Text(object):
                             else:
                                 self.orgText = f"The National Weather Service in {self.WFOText}"
                         self.EASText = f"{self.orgText} has issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText}. Message from {self.callsign}."
+    
                 else:
+                    # United States New Weather Forecasting Office Mode (Referred to as United States New WFO)
 
-                    # Function to get WFO details for a given WFO number
+                    # Function to get WFO details for a given WFO number - United States New WFO
                     def get_wfo_details(wfo_number):
                         wfo_info = ccl2["WFOs"].get(wfo_number, [])
                         if not wfo_info:
@@ -858,7 +1434,7 @@ class EAS2Text(object):
                             "Phone_number": wfo_info[0]["PNum"]
                         }
 
-                    # Parsing the JSON data
+                    # Parsing the JSON data - United States New WFO
                     parsed_data = {}
 
                     for fips_code, entries in ccl2["SAME"].items():
@@ -872,21 +1448,21 @@ class EAS2Text(object):
                         nwr_lat = []
                         nwr_lon = []
                         
-                        # Set to track combinations of frequency, callsign, and power to avoid duplicates
+                        # Set to track combinations of frequency, callsign, and power to avoid duplicates - United States New WFO
                         freq_callsign_pwr_set = set()
                         
-                        # Set to track combinations of sitename and siteloc to avoid duplicates
+                        # Set to track combinations of sitename and siteloc to avoid duplicates - United States New WFO
                         sitename_siteloc_set = set()
                         
                         for entry in entries:
                             wfo_number = entry["WFO"]
                             
-                            # Get the WFO details
+                            # Get the WFO details - United States New WFO
                             wfo_details = get_wfo_details(wfo_number)
                             if wfo_details and wfo_details not in wfo_list:
                                 wfo_list.append(wfo_details)
                             
-                            # Check for duplicates based on frequency, callsign, and power
+                            # Check for duplicates based on frequency, callsign, and power - United States New WFO
                             freq_callsign_pwr_pair = (entry["FREQ"], entry["CALLSIGN"], entry["PWR"])
                             if freq_callsign_pwr_pair not in freq_callsign_pwr_set:
                                 freq_callsign_pwr_set.add(freq_callsign_pwr_pair)
@@ -894,7 +1470,7 @@ class EAS2Text(object):
                                 nwr_callsign.append(entry["CALLSIGN"])
                                 nwr_pwr.append(entry["PWR"])
                             
-                            # Check for duplicates based on sitename and siteloc
+                            # Check for duplicates based on sitename and siteloc - United States New WFO
                             sitename_siteloc_pair = (entry["SITENAME"], entry["SITELOC"])
                             if sitename_siteloc_pair not in sitename_siteloc_set:
                                 sitename_siteloc_set.add(sitename_siteloc_pair)
@@ -907,7 +1483,7 @@ class EAS2Text(object):
                             if entry["LON"] not in nwr_lon:
                                 nwr_lon.append(entry["LON"])
                         
-                        # Combine NWR data into semicolon-separated strings
+                        # Combine NWR data into semicolon-separated strings - United States New WFO
                         parsed_data[fips_code] = {
                             "WFOs": wfo_list,
                             "NWR_FREQ": "; ".join(nwr_freq),
@@ -937,7 +1513,7 @@ class EAS2Text(object):
                     self.NWR_SITE = []
                     self.NWR_COORDINATES = []
 
-                    ## CHECKING FOR VALID SAME
+                    ## CHECKING FOR VALID SAME - United States New WFO
                     if sameData == "":
                         raise MissingSAME()
                     elif sameData.startswith("NNNN"):
@@ -955,7 +1531,7 @@ class EAS2Text(object):
                             try:
                                 assert len(i) == 6
                                 assert self.__isInt__(i) == True
-                                ## FIPS CODE
+                                ## FIPS CODE - United States New WFO
                                 if i not in self.FIPS:
                                     self.FIPS.append(str(i))
                             except AssertionError:
@@ -975,7 +1551,7 @@ class EAS2Text(object):
 
                                         for wfos in wfolist:
                                             if wfos:
-                                                ## WXR LOCALITY
+                                                ## WXR LOCALITY - United States New WFO
                                                 self.WFOText.append(
                                                     f'{wfos["Forecast_office"]}, {wfos["State"]} ({wfos["Office_call_sign"]})'
                                                 )
@@ -1038,7 +1614,7 @@ class EAS2Text(object):
                                 except KeyError:
                                     try:
                                         if(str(eas[0]) == "WXR") and ("State" not in same):
-                                            ## WXR LOCALITY
+                                            ## WXR LOCALITY - United States New WFO
                                             wfo = locality2["SAME"][i[1:]][0]["wfo"]
                                             if wfo:
                                                 self.WFOText.append(
@@ -1078,7 +1654,7 @@ class EAS2Text(object):
                             FIPSText[-1] = f"and {FIPSText[-1]}"
                         self.strFIPS = "; ".join(self.FIPSText).strip() + ";"
 
-                        ## WXR LOCALITY MULTIPLE
+                        ## WXR LOCALITY MULTIPLE - United States New WFO
                         if(str(eas[0]) == "WXR"):
                             if self.WFOText != "":
                                 if len(self.WFOText) > 1:
@@ -1106,7 +1682,7 @@ class EAS2Text(object):
                                     self.WFO = str(self.WFO[0])+";"
                     
 
-                    ## TIME CODE
+                    ## TIME CODE - United States New WFO
                     try:
                         self.purge = [eas[-3][:2], eas[-3][2:]]
                     except IndexError:
@@ -1115,10 +1691,8 @@ class EAS2Text(object):
                     utc = DT.utcnow()
                     if timeZone == None:
                         dtOffset = 0
-                        #dtOffset = utc.timestamp() - DT.now().timestamp()
                     if timeZoneTZ == None:
                         dtOffset = 0
-                        #dtOffset = utc.timestamp() - DT.now().timestamp()
                     if timeZone != None:
                         dtOffset = -timeZone * 3600
                     if timeZoneTZ != None:
@@ -1154,8 +1728,6 @@ class EAS2Text(object):
                         current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
                         is_leap_year = calendar.isleap(current_year)
 
-                        # today = DT.utcnow().today().date()
-
                         if is_leap_year and today > DT(today.year, 2, 29).date():
                             self.startTime -= timedelta(days=1)  # Adjust for leap year
                             self.endTime -= timedelta(days=1)  # Adjust for leap year
@@ -1182,7 +1754,7 @@ class EAS2Text(object):
                         )
 
 
-                    ## ORG / EVENT CODE
+                    ## ORG / EVENT CODE - United States New WFO
                     try:
                         self.org = str(eas[0])
                         self.evnt = str(eas[1])
@@ -1210,11 +1782,12 @@ class EAS2Text(object):
                             message=f"Error in ORG / EVNT Decoding ({str(E)})",
                         )
 
-                    ## CALLSIGN CODE"
+                    ## CALLSIGN CODE - United States New WFO
                     self.callsign = eas[-1].strip()
 
-                    ## FINAL TEXT
+                    ## FINAL TEXT - United States New WFO
                     if mode == "TFT":
+                        # TFT Mode - United States New WFO
                         self.strFIPS = (
                             self.strFIPS[:-1]
                             .replace(",", "")
@@ -1235,6 +1808,7 @@ class EAS2Text(object):
                             self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. message from {self.callsign}.".upper()
 
                     elif mode.startswith("SAGE"):
+                        # SAGE Mode - United States New WFO
                         if self.org == "CIV":
                             self.orgText = "The Civil Authorities"
                         self.strFIPS = self.strFIPS[:-1].replace(";", ",")
@@ -1253,6 +1827,7 @@ class EAS2Text(object):
                             self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} for {self.strFIPS} beginning at {self.startTimeText} and ending at {self.endTimeText} ({self.callsign})"
 
                     elif mode in ["TRILITHIC", "VIAVI", "EASY"]:
+                        # Trilithic - United States New WFO
                         def process_location(text):
                             
                             if text.startswith("City of"):
@@ -1350,6 +1925,7 @@ class EAS2Text(object):
                         self.EASText = f"{self.orgText} {'have' if self.org == 'CIV' else 'has'} issued {self.evntText} {bigFips} {self.strFIPS}. Effective Until {self.endTimeText}. ({self.callsign})"
 
                     elif mode in ["BURK"]:
+                        # Burk Mode - United States New WFO
                         if self.org == "EAS":
                             self.orgText = "A Broadcast station or cable system"
                         elif self.org == "CIV":
@@ -1368,16 +1944,300 @@ class EAS2Text(object):
                         self.evntText = " ".join(self.evntText.split(" ")[1:]).upper()
                         self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} on {self.startTimeText} effective until {self.endTimeText}."
 
-                    elif mode in ["DAS", "DASDEC", "MONROE"]:
+                    elif mode in ["DAS", "DASDEC", "MONROE", "ONENET", "ONENET SE"]:
+                        # DASDEC Software <=v2.9 Mode - United States New WFO
                         self.orgText = self.orgText.upper()
                         self.evntText = self.evntText.upper()
+                        # Function to process the FIPS string and check for parishes
+                        def process_fips_string(fips_string):
+                            result = []
+                            states = {}  # To track counties/cities/parishes per state
+                            only_parishes = True  # Flag to check if only parishes exist
+                            parts = [part.strip() for part in fips_string.split(';') if part.strip()]
+
+                            for part in parts:
+                                part = re.sub(r'^\s*and\s+', '', part)
+                                
+                                # Match "City of", "County", or "Parish" and extract name and state
+                                match = re.match(r'(City of )?(.*?)( County| Parish)?, (\w{2})', part)
+                                state_match = re.match(r'State of (.+)', part)
+
+                                if match:
+                                    city_prefix, name, locality_type, state = match.groups()
+                                    clean_name = name
+
+                                    # Determine locality type and adjust name
+                                    if locality_type == " Parish":
+                                        pass  # No suffix needed, keep the name as is
+                                    elif city_prefix:
+                                        clean_name += " (city)"
+                                        only_parishes = False  # Contains city
+                                    else:
+                                        only_parishes = False  # Contains county
+
+                                    # Track states and their counties/cities/parishes
+                                    if state not in states:
+                                        states[state] = []
+                                    states[state].append((clean_name, state))
+
+                                elif state_match:
+                                    # Handle standalone states like "State of Washington"
+                                    state_name = state_match.group(1)
+                                    result.append(state_name)  # Add state directly to result
+
+                            # Build the result with correct formatting
+                            for state, entries in states.items():
+                                for i, (name, _) in enumerate(entries):
+                                    # Add state abbreviation only to the last entry for the state
+                                    if i == len(entries) - 1:
+                                        result.append(f"{name}, {state}")
+                                    else:
+                                        result.append(name)
+
+                            # Join results and format properly
+                            final_result = '; '.join(result).replace(' and ', ' ')
+
+                            # Fix "City of" for all independent cities and ensure state formatting
+                            final_result = re.sub(r'City of (.*?)( \(city\))?,', r'\1 (city),', final_result)
+                            return final_result + ';', only_parishes
+
+                        # Process the input string
+                        self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
+
+                        self.strFIPS = self.strFIPS.upper()
                         self.startTimeText = self.startTime.strftime(
                             "%I:%M %p ON %b %d, %Y"
                         ).upper()
                         self.endTimeText = self.endTime.strftime(
                             "%I:%M %p %b %d, %Y"
                         ).upper()
-                        self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES/AREAS: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
+                        self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING {'AREAS' if self.onlyParishes else 'COUNTIES/AREAS'}: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
+
+                    elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
+                        # DASDEC Software >=v3.0 Mode - United States New WFO
+                        self.orgText = self.orgText
+                        self.evntText = self.evntText.upper()
+
+                        # Function to process the FIPS string and check for parishes
+                        def process_fips_string(fips_string):
+                            result = []
+                            states = {}  # To track counties/cities/parishes per state
+                            only_parishes = True  # Flag to check if only parishes exist
+                            parts = [part.strip() for part in fips_string.split(';') if part.strip()]
+
+                            for part in parts:
+                                part = re.sub(r'^\s*and\s+', '', part)
+
+                                # Match "City of", "County", or "Parish" and extract name and state
+                                match = re.match(r'(City of )?(.*?)( County| Parish)?, (\w{2})', part)
+                                state_match = re.match(r'State of (.+)', part)
+
+                                if match:
+                                    city_prefix, name, locality_type, state = match.groups()
+                                    clean_name = name
+
+                                    # Determine locality type and adjust name
+                                    if locality_type == " Parish":
+                                        pass  # No suffix needed, keep the name as is
+                                    elif city_prefix:
+                                        clean_name += " (city)"
+                                        only_parishes = False  # Contains city
+                                    else:
+                                        only_parishes = False  # Contains county
+
+                                    # Track states and their counties/cities/parishes
+                                    if state not in states:
+                                        states[state] = []
+                                    states[state].append((clean_name, state))
+
+                                elif state_match:
+                                    # Handle standalone states like "State of Washington"
+                                    state_name = state_match.group(1)
+                                    result.append(state_name)  # Add state directly to result
+
+                            # Build the result with correct formatting
+                            for state, entries in states.items():
+                                for i, (name, _) in enumerate(entries):
+                                    # Add state abbreviation only to the last entry for the state
+                                    if i == len(entries) - 1:
+                                        result.append(f"{name}, {state}")
+                                    else:
+                                        result.append(name)
+
+                            # Join results and format properly
+                            final_result = '; '.join(result).replace(' and ', ' ')
+
+                            # Fix "City of" for all independent cities and ensure state formatting
+                            final_result = re.sub(r'City of (.*?)( \(city\))?,', r'\1 (city),', final_result)
+                            return final_result + ';', only_parishes
+
+                        # Process the input string
+                        self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
+
+                        # Use the appropriate hour format specifier based on the operating system
+                        if platform.system() == "Windows":
+                            hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                        else:
+                            hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                        if self.startTime.date() == self.endTime.date():
+                            # Same day
+                            self.startTimeText = self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                        else:
+                            # Different days
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + self.startTime.strftime(" ON %b %d, %Y").upper()
+                            )
+                            self.endTimeText = (
+                                self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                                + self.endTime.strftime(" %b %d, %Y").upper()
+                            )
+
+                        self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. Message from {self.callsign}."
+
+                    elif mode in ["HollyAnne", "Holly Anne", "Holly-Anne", "HU-961", "MIP-921", "MIP-921e", "HU961", "MIP921", "MIP921e"]:
+                        # HollyAnne Mode - United States New WFO
+                        if self.org == "EAS":
+                            self.orgText = "CABLE/BROADCAST SYSTEM"
+                        elif self.org == "CIV":
+                            self.orgText = "AUTHORITIES"
+                        elif self.org == "WXR":
+                            self.orgText = "NATIONAL WEATHER SERVICE"
+
+                        self.evntText = self.evntText.upper()
+
+                        self.strFIPS = self.strFIPS.replace(',', '')
+
+                        def filterlocation(text):
+                            if text.startswith("City of"):
+                               text = text.replace("City of ", "") + " CITY"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " CITY"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", "")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "AND ")
+
+                            return text
+
+                        # Collect all state abbreviations
+                        state_abbreviations = []
+                        for loc in self.FIPSText:
+                            loc_parts = loc.split(", ")
+                            if len(loc_parts) > 1:  # Ensure there is a state abbreviation
+                                state_abbreviations.append(loc_parts[-1])
+
+                        unique_states = set(state_abbreviations)  # Check for unique states
+
+                        FIPSStrings = []
+                        for loc in self.FIPSText:
+                            loc_parts = loc.split(", ")
+                            if len(loc_parts) == 2:  # Contains a location and a state abbreviation
+                                location = loc_parts[0]
+                                state = loc_parts[1]
+                                if len(unique_states) == 1:  # If only one state is present
+                                    loc3 = filterlocation(location).upper()
+                                else:  # If multiple states are present, remove comma but keep state
+                                    loc3 = filterlocation(location).upper() + " " + state.upper()
+                            elif len(loc_parts) > 2:  # Multiple components, e.g., "City of X, State, XX"
+                                loc3 = filterlocation(" ".join(loc_parts[:-1])).upper() + " " + loc_parts[-1].upper()
+                            else:  # Single location without state abbreviation
+                                loc3 = filterlocation(loc_parts[0]).upper()
+
+                            FIPSStrings.append(loc3)
+
+                        # Update FIPSText and strFIPS
+                        self.FIPSText = FIPSStrings
+                        self.strFIPS = ", ".join(self.FIPSText).strip()
+
+                        # Remove ", AND" if it exists
+                        if ", AND " in self.strFIPS:
+                            self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+                        
+                        self.EASText = f"THE {self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES: {self.strFIPS} BEGINNING AT {self.startTimeText} AND ENDING AT {self.endTimeText}. MESSAGE FROM {self.callsign}."
+
+                    elif mode in ["EAS1CG", "EAS-1", "EAS1", "EAS1-CG", "EAS-1CG", "Gorman-Redlich", "GormanRedlich", "Gorman Redlich"]:
+                        # Gorman Redlich Mode - United States New WFO
+                        self.evntText = self.evntText.upper()
+
+                        # Use the appropriate format specifier based on the operating system
+                        if platform.system() == "Windows":
+                            hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                        else:
+                            hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                        if self.startTime.date() == self.endTime.date():
+                            # Same day
+                            self.startTimeText = self.startTime.strftime(
+                                f"{hour_format}:%M %p ON %B %d, %Y"
+                            ).upper()
+                            self.endTimeText = self.endTime.strftime(
+                                f"{hour_format}:%M %p"
+                            ).upper()
+                        else:
+                            # Different days
+                            self.startTimeText = self.startTime.strftime(
+                                f"{hour_format}:%M %p ON %B %d, %Y"
+                            ).upper()
+                            self.endTimeText = self.endTime.strftime(
+                                f"{hour_format}:%M %p ON %B %d, %Y"
+                            ).upper()
+
+                        def filterlocation(text):
+                            if text.startswith("City of"):
+                               text = text.replace("City of ", "") + " CITY"
+
+                            if text.startswith("State of"):
+                               text = text.replace("State of", "")
+                                
+                            if " City of" in text:
+                                text = text.replace(" City of", "") + " CITY"
+
+                            if (" State of" in text) and not ("All of" in text):
+                                text = text.replace(" State of", "")
+                            
+                            if " County" in text:
+                                text = text.replace(" County", "")
+                            
+                            if text.startswith("and "):
+                                text = text.replace("and ", "AND ")
+
+                            return text
+                        
+                        FIPSStrings = []
+                        for loc in self.FIPSText:
+                            loc_parts = loc.split(", ")
+                            if len(loc_parts) == 2:  # Contains a location and a state abbreviation
+                                location = loc_parts[0]
+                                state = loc_parts[1]
+                                loc3 = filterlocation(location).upper() + " " + state.upper()
+                            elif len(loc_parts) > 2:  # Multiple components, e.g., "City of X, State, XX"
+                                loc3 = filterlocation(" ".join(loc_parts[:-1])).upper() + " " + loc_parts[-1].upper()
+                            else:  # Single location without state abbreviation
+                                loc3 = filterlocation(loc_parts[0]).upper()
+
+                            FIPSStrings.append(loc3)
+
+                        # Update FIPSText and strFIPS
+                        self.FIPSText = FIPSStrings
+                        self.strFIPS = ", ".join(self.FIPSText).strip()
+
+                        # Remove ", AND" if it exists
+                        if ", AND " in self.strFIPS:
+                            self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+
+                        self.EASText = f"{self.evntText} HAS BEEN ISSUED FOR {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign}."
 
                     else:
                         if self.org == "WXR":
