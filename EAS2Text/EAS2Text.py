@@ -488,12 +488,29 @@ class EAS2Text(object):
                     self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
 
                     self.strFIPS = self.strFIPS.upper()
-                    self.startTimeText = self.startTime.strftime(
-                        "%I:%M %p ON %b %d, %Y"
-                    ).upper()
-                    self.endTimeText = self.endTime.strftime(
-                        "%I:%M %p %b %d, %Y"
-                    ).upper()
+                    # Use the appropriate hour format specifier based on the operating system
+                    if platform.system() == "Windows":
+                        hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                    else:
+                        hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                    if self.startTime.date() == self.endTime.date():
+                        # Same day
+                        self.startTimeText = (
+                            self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            + " ON" + self.startTime.strftime(" %b %d, %Y").upper()
+                        )
+                        self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                    else:
+                        # Different days
+                        self.startTimeText = (
+                            self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            + " ON" + self.startTime.strftime(" %b %d, %Y").upper()
+                        )
+                        self.endTimeText = (
+                            self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                            + self.endTime.strftime(" %b %d, %Y").upper()
+                        )
                     self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING {'AREAS' if self.onlyParishes else 'COUNTIES/AREAS'}: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
 
                 elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
@@ -565,7 +582,10 @@ class EAS2Text(object):
 
                     if self.startTime.date() == self.endTime.date():
                         # Same day
-                        self.startTimeText = self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                        self.startTimeText = (
+                            self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            + " on" + self.startTime.strftime(" %b %d, %Y").upper()
+                        )
                         self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
                     else:
                         # Different days
@@ -1179,12 +1199,29 @@ class EAS2Text(object):
                         self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
 
                         self.strFIPS = self.strFIPS.upper()
-                        self.startTimeText = self.startTime.strftime(
-                            "%I:%M %p ON %b %d, %Y"
-                        ).upper()
-                        self.endTimeText = self.endTime.strftime(
-                            "%I:%M %p %b %d, %Y"
-                        ).upper()
+                        # Use the appropriate hour format specifier based on the operating system
+                        if platform.system() == "Windows":
+                            hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                        else:
+                            hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                        if self.startTime.date() == self.endTime.date():
+                            # Same day
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + " ON" + self.startTime.strftime(" %b %d, %Y").upper()
+                            )
+                            self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                        else:
+                            # Different days
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + " ON" + self.startTime.strftime(" %b %d, %Y").upper()
+                            )
+                            self.endTimeText = (
+                                self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                                + self.endTime.strftime(" %b %d, %Y").upper()
+                            )
                         self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING {'AREAS' if self.onlyParishes else 'COUNTIES/AREAS'}: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
 
                     elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
@@ -1256,7 +1293,10 @@ class EAS2Text(object):
 
                         if self.startTime.date() == self.endTime.date():
                             # Same day
-                            self.startTimeText = self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + " on" + self.startTime.strftime(" %b %d, %Y").upper()
+                            )
                             self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
                         else:
                             # Different days
@@ -2014,12 +2054,31 @@ class EAS2Text(object):
                         self.strFIPS, self.onlyParishes = process_fips_string(self.strFIPS)
 
                         self.strFIPS = self.strFIPS.upper()
-                        self.startTimeText = self.startTime.strftime(
-                            "%I:%M %p ON %b %d, %Y"
-                        ).upper()
-                        self.endTimeText = self.endTime.strftime(
-                            "%I:%M %p %b %d, %Y"
-                        ).upper()
+
+                        # Use the appropriate hour format specifier based on the operating system
+                        if platform.system() == "Windows":
+                            hour_format = "%#I"  # Windows-specific: No leading zero for hour
+                        else:
+                            hour_format = "%-I"  # Unix-like systems: No leading zero for hour
+
+                        if self.startTime.date() == self.endTime.date():
+                            # Same day
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + " ON" + self.startTime.strftime(" %b %d, %Y").upper()
+                            )
+                            self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                        else:
+                            # Different days
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + " ON" + self.startTime.strftime(" %b %d, %Y").upper()
+                            )
+                            self.endTimeText = (
+                                self.endTime.strftime(f"{hour_format}:%M %p").upper()
+                                + self.endTime.strftime(" %b %d, %Y").upper()
+                            )
+
                         self.EASText = f"{self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING {'AREAS' if self.onlyParishes else 'COUNTIES/AREAS'}: {self.strFIPS} AT {self.startTimeText} EFFECTIVE UNTIL {self.endTimeText}. MESSAGE FROM {self.callsign.upper()}."
 
                     elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
@@ -2091,7 +2150,10 @@ class EAS2Text(object):
 
                         if self.startTime.date() == self.endTime.date():
                             # Same day
-                            self.startTimeText = self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                            self.startTimeText = (
+                                self.startTime.strftime(f"{hour_format}:%M %p").upper()
+                                + " on" + self.startTime.strftime(" %b %d, %Y").upper()
+                            )
                             self.endTimeText = self.endTime.strftime(f"{hour_format}:%M %p").upper()
                         else:
                             # Different days
