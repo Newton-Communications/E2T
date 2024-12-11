@@ -423,6 +423,7 @@ class EAS2Text(object):
                         + self.startTime.strftime("%I:%M %p")
                     )
                     self.endTimeText = self.endTime.strftime("%I:%M %p, %B %d, %Y")
+                    self.endTimeText = self.endTimeText.upper()
                     self.evntText = " ".join(self.evntText.split(" ")[1:]).upper()
                     self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} on {self.startTimeText} effective until {self.endTimeText}."
 
@@ -1113,6 +1114,7 @@ class EAS2Text(object):
                             + self.startTime.strftime("%I:%M %p")
                         )
                         self.endTimeText = self.endTime.strftime("%I:%M %p, %B %d, %Y")
+                        self.endTimeText = self.endTimeText.upper()
                         self.evntText = " ".join(self.evntText.split(" ")[1:]).upper()
                         self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} on {self.startTimeText} effective until {self.endTimeText}."
 
@@ -1947,6 +1949,7 @@ class EAS2Text(object):
                             + self.startTime.strftime("%I:%M %p")
                         )
                         self.endTimeText = self.endTime.strftime("%I:%M %p, %B %d, %Y")
+                        self.endTimeText = self.endTimeText.upper()
                         self.evntText = " ".join(self.evntText.split(" ")[1:]).upper()
                         self.EASText = f"{self.orgText} has issued {self.evntText} for the following counties/areas: {self.strFIPS} on {self.startTimeText} effective until {self.endTimeText}."
 
