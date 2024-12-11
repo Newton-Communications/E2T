@@ -429,6 +429,16 @@ class EAS2Text(object):
 
                 elif mode in ["DAS", "DASDEC", "MONROE", "ONENET", "ONENET SE"]:
                     # DASDEC Software <=v2.9 Mode - Canada
+
+                    if self.org == "EAS":
+                        self.orgText = "A broadcast or cable system"
+                    elif self.org == "CIV":
+                        self.orgText = "A civil authority"
+                    elif self.org == "WXR":
+                        self.orgText = "The National Weather Service"
+                    elif self.org == "PEP":
+                        self.orgText = "THE PRIMARY ENTRY POINT EAS SYSTEM"
+
                     self.orgText = self.orgText.upper()
                     self.evntText = self.evntText.upper()
                     # Function to process the FIPS string and check for parishes
@@ -515,7 +525,16 @@ class EAS2Text(object):
 
                 elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
                     # DASDEC Software >=v3.0 Mode - Canada
-                    self.orgText = self.orgText
+
+                    if self.org == "EAS":
+                            self.orgText = "A broadcast or cable system"
+                    elif self.org == "CIV":
+                        self.orgText = "A civil authority"
+                    elif self.org == "WXR":
+                        self.orgText = "The National Weather Service"
+                    elif self.org == "PEP":
+                        self.orgText = "THE PRIMARY ENTRY POINT EAS SYSTEM"
+
                     self.evntText = self.evntText.upper()
 
                     # Function to process the FIPS string and check for parishes
@@ -1140,6 +1159,16 @@ class EAS2Text(object):
 
                     elif mode in ["DAS", "DASDEC", "MONROE", "ONENET", "ONENET SE"]:
                         # DASDEC Software <=v2.9 Mode - United States Old WFO
+
+                        if self.org == "EAS":
+                            self.orgText = "A broadcast or cable system"
+                        elif self.org == "CIV":
+                            self.orgText = "A civil authority"
+                        elif self.org == "WXR":
+                            self.orgText = "The National Weather Service"
+                        elif self.org == "PEP":
+                            self.orgText = "THE PRIMARY ENTRY POINT EAS SYSTEM"
+
                         self.orgText = self.orgText.upper()
                         self.evntText = self.evntText.upper()
                         # Function to process the FIPS string and check for parishes
@@ -1226,7 +1255,16 @@ class EAS2Text(object):
 
                     elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
                         # DASDEC Software >=v3.0 Mode - United States Old WFO
-                        self.orgText = self.orgText
+
+                        if self.org == "EAS":
+                            self.orgText = "A broadcast or cable system"
+                        elif self.org == "CIV":
+                            self.orgText = "A civil authority"
+                        elif self.org == "WXR":
+                            self.orgText = "The National Weather Service"
+                        elif self.org == "PEP":
+                            self.orgText = "THE PRIMARY ENTRY POINT EAS SYSTEM"
+
                         self.evntText = self.evntText.upper()
 
                         # Function to process the FIPS string and check for parishes
@@ -1995,6 +2033,16 @@ class EAS2Text(object):
 
                     elif mode in ["DAS", "DASDEC", "MONROE", "ONENET", "ONENET SE"]:
                         # DASDEC Software <=v2.9 Mode - United States New WFO
+
+                        if self.org == "EAS":
+                            self.orgText = "A broadcast or cable system"
+                        elif self.org == "CIV":
+                            self.orgText = "A civil authority"
+                        elif self.org == "WXR":
+                            self.orgText = "The National Weather Service"
+                        elif self.org == "PEP":
+                            self.orgText = "THE PRIMARY ENTRY POINT EAS SYSTEM"
+                            
                         self.orgText = self.orgText.upper()
                         self.evntText = self.evntText.upper()
                         # Function to process the FIPS string and check for parishes
@@ -2083,7 +2131,16 @@ class EAS2Text(object):
 
                     elif mode in ["DASV3", "DASDECV3", "MONROEV3", "ONENETV3", "ONENET SEV3"]:
                         # DASDEC Software >=v3.0 Mode - United States New WFO
-                        self.orgText = self.orgText
+
+                        if self.org == "EAS":
+                            self.orgText = "A broadcast or cable system"
+                        elif self.org == "CIV":
+                            self.orgText = "A civil authority"
+                        elif self.org == "WXR":
+                            self.orgText = "The National Weather Service"
+                        elif self.org == "PEP":
+                            self.orgText = "THE PRIMARY ENTRY POINT EAS SYSTEM"
+
                         self.evntText = self.evntText.upper()
 
                         # Function to process the FIPS string and check for parishes
