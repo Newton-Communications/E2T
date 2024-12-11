@@ -570,14 +570,14 @@ class EAS2Text(object):
                         # Different days
                         self.startTimeText = (
                             self.startTime.strftime(f"{hour_format}:%M %p").upper()
-                            + self.startTime.strftime(" ON %b %d, %Y").upper()
+                            + " on" + self.startTime.strftime(" %b %d, %Y").upper()
                         )
                         self.endTimeText = (
                             self.endTime.strftime(f"{hour_format}:%M %p").upper()
                             + self.endTime.strftime(" %b %d, %Y").upper()
                         )
 
-                    self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. Message from {self.callsign}."
+                    self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} Effective until {self.endTimeText}. Message from {self.callsign}."
 
 
                 elif mode in ["HollyAnne", "Holly Anne", "Holly-Anne", "HU-961", "MIP-921", "MIP-921e", "HU961", "MIP921", "MIP921e"]:
@@ -1260,14 +1260,14 @@ class EAS2Text(object):
                             # Different days
                             self.startTimeText = (
                                 self.startTime.strftime(f"{hour_format}:%M %p").upper()
-                                + self.startTime.strftime(" ON %b %d, %Y").upper()
+                                + " on" + self.startTime.strftime(" %b %d, %Y").upper()
                             )
                             self.endTimeText = (
                                 self.endTime.strftime(f"{hour_format}:%M %p").upper()
                                 + self.endTime.strftime(" %b %d, %Y").upper()
                             )
 
-                        self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. Message from {self.callsign}."
+                        self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} Effective until {self.endTimeText}. Message from {self.callsign}."
 
                     elif mode in ["HollyAnne", "Holly Anne", "Holly-Anne", "HU-961", "MIP-921", "MIP-921e", "HU961", "MIP921", "MIP921e"]:
                         # HollyAnne Mode - United States Old WFO
@@ -2094,14 +2094,14 @@ class EAS2Text(object):
                             # Different days
                             self.startTimeText = (
                                 self.startTime.strftime(f"{hour_format}:%M %p").upper()
-                                + self.startTime.strftime(" ON %b %d, %Y").upper()
+                                + " on" + self.startTime.strftime(" %b %d, %Y").upper()
                             )
                             self.endTimeText = (
                                 self.endTime.strftime(f"{hour_format}:%M %p").upper()
                                 + self.endTime.strftime(" %b %d, %Y").upper()
                             )
 
-                        self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} effective until {self.endTimeText}. Message from {self.callsign}."
+                        self.EASText = f"{self.orgText} has issued {self.evntText} for the following {'areas' if self.onlyParishes else 'counties/areas'}: {self.strFIPS} at {self.startTimeText} Effective until {self.endTimeText}. Message from {self.callsign}."
 
                     elif mode in ["HollyAnne", "Holly Anne", "Holly-Anne", "HU-961", "MIP-921", "MIP-921e", "HU961", "MIP921", "MIP921e"]:
                         # HollyAnne Mode - United States New WFO
