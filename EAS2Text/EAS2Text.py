@@ -647,6 +647,9 @@ class EAS2Text(object):
                     # Remove ", AND" if it exists
                     if ", AND " in self.strFIPS:
                         self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+
+                    self.startTimeText = self.startTimeText.upper()
+                    self.endTimeText = self.endTimeText.upper()
                     
                     self.EASText = f"THE {self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES: {self.strFIPS} BEGINNING AT {self.startTimeText} AND ENDING AT {self.endTimeText}. MESSAGE FROM {self.callsign}."
 
@@ -1333,6 +1336,9 @@ class EAS2Text(object):
                         # Remove ", AND" if it exists
                         if ", AND " in self.strFIPS:
                             self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+
+                        self.startTimeText = self.startTimeText.upper()
+                        self.endTimeText = self.endTimeText.upper()
                         
                         self.EASText = f"THE {self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES: {self.strFIPS} BEGINNING AT {self.startTimeText} AND ENDING AT {self.endTimeText}. MESSAGE FROM {self.callsign}."
 
@@ -2164,6 +2170,9 @@ class EAS2Text(object):
                         # Remove ", AND" if it exists
                         if ", AND " in self.strFIPS:
                             self.strFIPS = self.strFIPS.replace(", AND ", " AND ")
+
+                        self.startTimeText = self.startTimeText.upper()
+                        self.endTimeText = self.endTimeText.upper()
                         
                         self.EASText = f"THE {self.orgText} HAS ISSUED {self.evntText} FOR THE FOLLOWING COUNTIES: {self.strFIPS} BEGINNING AT {self.startTimeText} AND ENDING AT {self.endTimeText}. MESSAGE FROM {self.callsign}."
 
