@@ -1,66 +1,64 @@
+# 🌩️ **EAS2Text**: Comprehensive EAS Header-to-Text Translation Library
+
 ![EAS2Text](https://github.com/Newton-Communications/E2T/blob/nwr-localities/doc/img/TRxT7n.jpg)
 
-An Extensive EAS Header to Text Translation Python Library REVAMPED!
+EAS2Text is a powerful Python library for translating **EAS (Emergency Alert System)** headers into human-readable text. It includes robust support for weather alerts, FIPS codes, emulation modes, and Canadian regions, ensuring a seamless experience for decoding emergency messages.
 
-## Reporting Issues
-Data for the Weather Forecasting Offices has been collected based off of personal observations, available public data, and user reports and feedback. Any incorrect or invalid data should be reported using the specified criteria.
-- If a FIPS Code reports as "Unknown WFO" and specifies a FIPS code, you can either report it to me on [Discord](https://discord.com/users/637078631943897103) and specify you are contacting regarding EAS2Text, or you can post it in the Issues tab on this repository, and make sure to include the FIPS Code mentioned as well as the proper WFO that should be specified by the FIPS Code.
-- If a specific alert or Individual FIPS Code reports the incorrect Weather Forecasting Office, you can either report it to me on [Discord](https://discord.com/users/637078631943897103) and specify you are contacting regarding EAS2Text, or you can post it in the Issues tab on this repository, and make sure to include either the entire ZCZC SAME String and/or the FIPS Code that reports the wrong WFO, as well as what WFO is incorrect and specify what it should be changed to (the proper WFO).
+---
 
-## Specific Features That May Be Considered An Issue
-- (CURRENTLY AN OPT-IN FEATURE) Some FIPS Codes may report as multiple WFOs due to NOAA Weather Radio transmitter coverage overlap. Functionality has been programmed into the script to detect if a county is covered by multiple WFOs and display all WFOs that tone for that county based on NWR coverage. This is a new feature. Marine localities will still need data determined, due to a lack of NOAA supplied data for Marine localities. Incorrect WFOs should only be reported if evidence is supplied to suggest that the data supplied to the project by the NWS is incorrect based upon NWR transmitter coverage maps.
+## 🛠️ **Features**
 
-## Known Issues
-Several issues with the project are already known, and a fix either isn't possible, or isn't within plans to be implemented.
-- Unknown FIPS Codes. Unless they're Canadian FIPS Codes, then we have plans to make Canadian alerts available via a separate system that will be included with EAS2Text at a later date. Unknown FIPS Codes, unless they are an actual, verifiable fips code, or edits to existing fips codes (if they are contact on [Discord](https://discord.com/users/637078631943897103) or specify the specific issue with said FIPS Code or lack of FIPS Code in the Issues tab on this repository), are a product of individual stations or the National Weather Service, and are not a bug with the script, and moreso a bug with the decoding of the ZCZC Headers from whatever EAS decoder/encoder you're using, or an issue with the alert itself when it was toned by the individual station or National Weather Service NOAA Weather Radio station.
+- ✅ **EAS to Text Translation**: Converts raw ZCZC SAME strings into clear, readable text.
+- ✅ **EAS EOM Detection**: Seamlessly detects End-of-Message headers.
+- ✅ **Error Handling**: Handles unknown callsigns, originators, and FIPS codes.
+- ✅ **Detailed Output**: Provides raw and parsed outputs for advanced use.
+- ✅ **Weather Forecast Office (WFO) Detection**: Supports overlap detection and marine localities.
+- ✅ **Emulation Modes**: Mimic outputs of various EAS hardware/software systems.
+- ✅ **Canadian Forecast Regions**: Full support for Canadian alerts and regions.
 
+---
 
-## Features
-> - [x] EAS to Text Translation
-> - [x] EAS EOM detection
-> - [x] Handles Unknown Callsigns, Originators, and FIPS codes
-> - [x] Additional raw outputs and individual item outputs
-> - [x] EAS Data Validation
-> - [x] WXR Weather Forecasting Office detection and support
-> - [x] WXR Station Data and Coverage Overlap detection and support (Opt-in)
-> - [x] Marine FIPS codes readded and fixed
-> - [x] Error handling revamped for new features
+## 🚀 **Installation**
 
-## Installation
-This package should be installable through Pip.
-
-On a Debian Based Linux OS:
-```
+### Linux (Debian-based)
+```bash
 sudo apt update
 sudo apt install python3 python3-pip
 python3 -m pip install https://github.com/Newton-Communications/E2T/archive/refs/heads/nwr-localities.zip
 ```
 
+### Windows
+1. [Install Python](https://www.python.org/downloads/).
+2. Open CMD and run:
+   ```bash
+   python -m pip install https://github.com/Newton-Communications/E2T/archive/refs/heads/nwr-localities.zip
+   ```
 
-On Windows:
+---
 
-[Install Python](https://www.python.org/downloads/)
+## 📖 **Basic Usage**
 
-In CMD:
-```
-python -m pip install https://github.com/Newton-Communications/E2T/archive/refs/heads/nwr-localities.zip
-```
-
-## Usage
-This package should take a raw ZCZC string, and then return the full text, and/or individual options:
+### Translate a Raw SAME String
 ```python
 from EAS2Text import EAS2Text
 
 data = EAS2Text("ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-")
 print(f"{data.EASText}")
 ```
-should output:
+
+<details>
+<summary>Output</summary>
+
 ```
 The National Weather Service in Baltimore/Washington, D.C. (LWX); and Philadelphia/Mt Holly, NJ (PHI); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 02:29 PM and ending at 08:29 PM. Message from EAR/FOLF.
 ```
+</details>
 
-## Advanced Usage:
-Using the Generator, you can get additional output of info from an alert:
+---
+
+## 🔍 **Advanced Usage**
+
+### Extract All Data Components
 ```python
 from EAS2Text import EAS2Text
 
@@ -90,7 +88,9 @@ print(f"TEXT End Time: {oof.endTimeText}") ## A End-Time Tag in the format of "H
 print(f"{oof.EASText}") ## The full EAS Output data
 ```
 
-should output:
+<details>
+<summary>Output</summary>
+
 ```
 RAW Data: ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-
 RAW ORG: WXR
@@ -110,35 +110,50 @@ TEXT Start Time: 02:29 PM
 TEXT End Time: 08:29 PM
 The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 02:29 PM and ending at 08:29 PM. Message from EAR/FOLF.
 ```
+</details>
 
-## NEW FEATURE: List Mode
-EAS2Text has now implemented the ability to list the data that the script uses in order to help with development of external software. It requires the script to be switched from ZCZC mode to List mode in order to use the functionality.
+---
 
-To use List mode:
+## 🌟 **Emulation Modes**
+
+EAS2Text supports various emulation modes to mimic specific EAS hardware/software outputs:
+
+| **Mode** | **Mode Triggers**                                   | **Sample EASText Output**                                                                                                                                                                                                                                                                                                                                                                  | **Emulated Hardware/Software**                                                                                          | **Known Issues/Bugs**         |
+|----------|----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| **1**    | TFT                                                | THE NATIONAL WEATHER SERVICE HAS ISSUED A SPECIAL WEATHER STATEMENT FOR THE FOLLOWING COUNTIES/AREAS: ALLEGANY COUNTY MD, BALTIMORE COUNTY MD, CARROLL COUNTY MD, FREDERICK COUNTY MD, HARFORD COUNTY MD, WASHINGTON COUNTY MD, FREDERICK COUNTY VA, CITY OF WINCHESTER VA, BERKELEY COUNTY WV, HAMPSHIRE COUNTY WV, JEFFERSON COUNTY WV, MINERAL COUNTY WV, AND MORGAN COUNTY WV AT 06:29 PM ON JAN 22, 2024 EFFECTIVE UNTIL 12:29 AM ON JAN 23, 2024. MESSAGE FROM EAR/FOLF. | TFT EAS 911, TFT EAS 911D                                                                                             | None currently reported        |
+| **2**    | SAGE, SAGE 1822, SAGE DIGITAL, SAGE EAS ENDEC      | The National Weather Service has issued a Special Weather Statement for Allegany County, MD, Baltimore County, MD, Carroll County, MD, Frederick County, MD, Harford County, MD, Washington County, MD, Frederick County, VA, City of Winchester, VA, Berkeley County, WV, Hampshire County, WV, Jefferson County, WV, Mineral County, WV, and Morgan County, WV beginning at 06:29 pm Mon Jan 22 and ending at 12:29 am Tue Jan 23 (EAR/FOLF)       | SAGE 1822 EAS ENDEC Firmware v5.9+, SAGE 3644 DIGITAL EAS ENDEC                                                          | None currently reported        |
+| **3**    | TRILITHIC, VIAVI, EASY                             | The National Weather Service has issued a Special Weather Statement for the following counties: Allegany MD - Baltimore MD - Carroll MD - Frederick MD - Harford MD - Washington MD - Frederick VA - Winchester (city) VA - Berkeley WV - Hampshire WV - Jefferson WV - Mineral WV - Morgan WV. Effective Until 01/23/24 00:29:00 UTC. (EAR/FOLF)                                                                                     | EASyIP, EASyIPTV, EASyCAP, VIAVI EAS product line, TRILITHIC EAS product line                                           | None currently reported        |
+| **4**    | BURK                                               | The National Weather Service has issued SPECIAL WEATHER STATEMENT for the following counties/areas: Allegany County MD, Baltimore County MD, Carroll County MD, Frederick County MD, Harford County MD, Washington County MD, Frederick County VA, City of Winchester VA, Berkeley County WV, Hampshire County WV, Jefferson County WV, Mineral County WV, and Morgan County WV on JANUARY 22, 2024 at 06:29 PM effective until 12:29 AM, January 23, 2024.          | BURK EAS product line                                                                                                  | None currently reported        |
+| **5**    | DAS, DASDEC, MONROE, ONENET, ONENET SE             | THE NATIONAL WEATHER SERVICE HAS ISSUED A SPECIAL WEATHER STATEMENT FOR THE FOLLOWING COUNTIES/AREAS: ALLEGANY; BALTIMORE; CARROLL; FREDERICK; HARFORD; WASHINGTON, MD; FREDERICK; WINCHESTER (CITY), VA; BERKELEY; HAMPSHIRE; JEFFERSON; MINERAL; MORGAN, WV; AT 06:29 PM ON JAN 22, 2024 EFFECTIVE UNTIL 12:29 AM JAN 23, 2024. MESSAGE FROM EAR/FOLF.                                                                                  | Digital Alert Systems DASDEC I/II units and all Monroe Electronics OneNet units Software Versions <=2.9                | None currently reported        |
+| **6**    | DASV3, DASDECV3, MONROEV3, ONENETV3, ONENET SEV3   | The National Weather Service has issued A SPECIAL WEATHER STATEMENT for the following counties/areas: Allegany; Baltimore; Carroll; Frederick; Harford; Washington, MD; Frederick; Winchester (city), VA; Berkeley; Hampshire; Jefferson; Mineral; Morgan, WV; at 6:29 PM ON JAN 22, 2024 effective until 12:29 AM JAN 23, 2024. Message from EAR/FOLF.                                                                                 | Digital Alert Systems DASDEC I/II units and all Monroe Electronics OneNet units Software Versions <=3.0                | None currently reported        |
+| **7**    | HollyAnne, Holly Anne, Holly-Anne, HU-961, MIP-921, MIP-921e, HU961, MIP921, MIP921e | THE NATIONAL WEATHER SERVICE HAS ISSUED A SPECIAL WEATHER STATEMENT FOR THE FOLLOWING COUNTIES: ALLEGANY MD, BALTIMORE MD, CARROLL MD, FREDERICK MD, HARFORD MD, WASHINGTON MD, FREDERICK VA, WINCHESTER CITY VA, BERKELEY WV, HAMPSHIRE WV, JEFFERSON WV, MINERAL WV AND MORGAN WV BEGINNING AT 06:29 PM January 22 AND ENDING AT 12:29 AM January 23. MESSAGE FROM EAR/FOLF.                                                                                   | HollyAnne EAS product line                                                                                              | None currently reported        |
+| **8**    | EAS1CG, EAS-1, EAS1, EAS1-CG, EAS-1CG, Gorman-Redlich, GormanRedlich, Gorman Redlich | A SPECIAL WEATHER STATEMENT HAS BEEN ISSUED FOR ALLEGANY MD, BALTIMORE MD, CARROLL MD, FREDERICK MD, HARFORD MD, WASHINGTON MD, FREDERICK VA, WINCHESTER CITY VA, BERKELEY WV, HAMPSHIRE WV, JEFFERSON WV, MINERAL WV AND MORGAN WV AT 6:29 PM ON JANUARY 22, 2024 EFFECTIVE UNTIL 12:29 AM ON JANUARY 23, 2024. MESSAGE FROM EAR/FOLF.                                                                                         | Gorman Redlich EAS product line                                                                                        | None currently reported        |
+
+---
+
+### **Example: SAGE Emulation**
 ```python
 from EAS2Text import EAS2Text
 
-oof = EAS2Text(listMode=True)
+oof = EAS2Text(sameData = "ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-", mode="SAGE EAS") ## Emulates a SAGE EAS ENDEC
 
-print(f"Org List: {oof.orgList}") ## A list of all available originator codes
-print(f"Event List: {oof.evntList}") ## A list of all available event codes
-print(f"Subdivision List: {oof.subdivList}") ## A list of all available subdivision codes
-print(f"FIPS Code List: {oof.fipsList}") ## A list of all available SAME FIPS codes
-```
-should output (with json response truncated due to length):
-```
-Org List: {'PEP': 'A Primary Entry Point System'...}
-Event List: {'BZW': 'a Blizzard Warning'...}
-Subdivision List: {'0': '', '1': 'Northwest'...}
-FIPS Code List: {'10000': 'State of Delaware'...}
+print(f"{oof.EASText}") ## The full EAS Output data, 1822 style
 ```
 
-## NEW FEATURE: Canadian Forecast Regions!
-EAS2Text has finally implemented Canadian Forecast Regions and Canada support into the software. However, due to the way Canadian FIPS codes are structured, it requires the software to be switched from the US mode to the Canadian mode.
+<details>
+<summary>Output</summary>
 
-Remember: **There is __no__ WFO text similar to the other scripts, so prepare your script accordingly!**
+```
+The National Weather Service has issued a Special Weather Statement for Allegany County, MD, Baltimore County, MD, Carroll County, MD, Frederick County, MD, Harford County, MD, Washington County, MD, Frederick County, VA, City of Winchester, VA, Berkeley County, WV, Hampshire County, WV, Jefferson County, WV, Mineral County, WV, and Morgan County, WV beginning at 02:29 pm and ending at 08:29 pm (EAR/FOLF)
+```
+</details>
 
-To use Canadian mode:
+---
+
+## 🇨🇦 **Canadian Forecast Regions**
+
+Enable Canadian mode to decode Canadian FIPS codes:
+
 ```python
 from EAS2Text import EAS2Text
 
@@ -165,7 +180,10 @@ print(f"TEXT Start Time: {oof.startTimeText}") ## A Start-Time Tag in the format
 print(f"TEXT End Time: {oof.endTimeText}") ## A End-Time Tag in the format of "HH:MM AM/PM MONTH_NAME DD, YYYY"
 print(f"{oof.EASText}") ## The full EAS Output data
 ```
-should output:
+
+<details>
+<summary>Output</summary>
+
 ```
 RAW Data: ZCZC-WXR-HWW-090000-098110+0100-2641926-EC/GC/CA-
 RAW ORG: WXR
@@ -183,42 +201,44 @@ TEXT Start Time: 03:26 PM
 TEXT End Time: 04:26 PM
 Environment Canada has issued a High Wind Warning for All of Yukon/Northwest Territories/Nunavut; and Arctic Bay, NU; beginning at 03:26 PM and ending at 04:26 PM. Message from EC/GC/CA.
 ```
+</details>
 
-## Advanced Usage: Encoder Emulation
-EAS2Text can be used to mimic or "emulate" other EAS devices.
+---
 
-List of Emulation Modes:
+## 📝📋 **List Mode**
 
-| **Mode** | **Mode Triggers**                                   | **Sample EASText Output**                                                                                                                                                                                                                                                                                                                                                                  | **Emulated Hardware/Software**                                                                                          | **Known Issues/Bugs**         |
-|----------|----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------------------|
-| **1**    | TFT                                                | THE NATIONAL WEATHER SERVICE HAS ISSUED A SPECIAL WEATHER STATEMENT FOR THE FOLLOWING COUNTIES/AREAS: ALLEGANY COUNTY MD, BALTIMORE COUNTY MD, CARROLL COUNTY MD, FREDERICK COUNTY MD, HARFORD COUNTY MD, WASHINGTON COUNTY MD, FREDERICK COUNTY VA, CITY OF WINCHESTER VA, BERKELEY COUNTY WV, HAMPSHIRE COUNTY WV, JEFFERSON COUNTY WV, MINERAL COUNTY WV, AND MORGAN COUNTY WV AT 06:29 PM ON JAN 22, 2024 EFFECTIVE UNTIL 12:29 AM ON JAN 23, 2024. MESSAGE FROM EAR/FOLF. | TFT EAS 911, TFT EAS 911D                                                                                             | None currently reported        |
-| **2**    | SAGE, SAGE 1822, SAGE DIGITAL, SAGE EAS ENDEC      | The National Weather Service has issued a Special Weather Statement for Allegany County, MD, Baltimore County, MD, Carroll County, MD, Frederick County, MD, Harford County, MD, Washington County, MD, Frederick County, VA, City of Winchester, VA, Berkeley County, WV, Hampshire County, WV, Jefferson County, WV, Mineral County, WV, and Morgan County, WV beginning at 06:29 pm Mon Jan 22 and ending at 12:29 am Tue Jan 23 (EAR/FOLF)       | SAGE 1822 EAS ENDEC Firmware v5.9+, SAGE 3644 DIGITAL EAS ENDEC                                                          | None currently reported        |
-| **3**    | TRILITHIC, VIAVI, EASY                             | The National Weather Service has issued a Special Weather Statement for the following counties: Allegany MD - Baltimore MD - Carroll MD - Frederick MD - Harford MD - Washington MD - Frederick VA - Winchester (city) VA - Berkeley WV - Hampshire WV - Jefferson WV - Mineral WV - Morgan WV. Effective Until 01/23/24 00:29:00 UTC. (EAR/FOLF)                                                                                     | EASyIP, EASyIPTV, EASyCAP, VIAVI EAS product line, TRILITHIC EAS product line                                           | None currently reported        |
-| **4**    | BURK                                               | The National Weather Service has issued SPECIAL WEATHER STATEMENT for the following counties/areas: Allegany County MD, Baltimore County MD, Carroll County MD, Frederick County MD, Harford County MD, Washington County MD, Frederick County VA, City of Winchester VA, Berkeley County WV, Hampshire County WV, Jefferson County WV, Mineral County WV, and Morgan County WV on JANUARY 22, 2024 at 06:29 PM effective until 12:29 AM, January 23, 2024.          | BURK EAS product line                                                                                                  | None currently reported        |
-| **5**    | DAS, DASDEC, MONROE, ONENET, ONENET SE             | THE NATIONAL WEATHER SERVICE HAS ISSUED A SPECIAL WEATHER STATEMENT FOR THE FOLLOWING COUNTIES/AREAS: ALLEGANY; BALTIMORE; CARROLL; FREDERICK; HARFORD; WASHINGTON, MD; FREDERICK; WINCHESTER (CITY), VA; BERKELEY; HAMPSHIRE; JEFFERSON; MINERAL; MORGAN, WV; AT 06:29 PM ON JAN 22, 2024 EFFECTIVE UNTIL 12:29 AM JAN 23, 2024. MESSAGE FROM EAR/FOLF.                                                                                  | Digital Alert Systems DASDEC I/II units and all Monroe Electronics OneNet units Software Versions <=2.9                | None currently reported        |
-| **6**    | DASV3, DASDECV3, MONROEV3, ONENETV3, ONENET SEV3   | The National Weather Service has issued A SPECIAL WEATHER STATEMENT for the following counties/areas: Allegany; Baltimore; Carroll; Frederick; Harford; Washington, MD; Frederick; Winchester (city), VA; Berkeley; Hampshire; Jefferson; Mineral; Morgan, WV; at 6:29 PM ON JAN 22, 2024 effective until 12:29 AM JAN 23, 2024. Message from EAR/FOLF.                                                                                 | Digital Alert Systems DASDEC I/II units and all Monroe Electronics OneNet units Software Versions <=3.0                | None currently reported        |
-| **7**    | HollyAnne, Holly Anne, Holly-Anne, HU-961, MIP-921, MIP-921e, HU961, MIP921, MIP921e | THE NATIONAL WEATHER SERVICE HAS ISSUED A SPECIAL WEATHER STATEMENT FOR THE FOLLOWING COUNTIES: ALLEGANY MD, BALTIMORE MD, CARROLL MD, FREDERICK MD, HARFORD MD, WASHINGTON MD, FREDERICK VA, WINCHESTER CITY VA, BERKELEY WV, HAMPSHIRE WV, JEFFERSON WV, MINERAL WV AND MORGAN WV BEGINNING AT 06:29 PM January 22 AND ENDING AT 12:29 AM January 23. MESSAGE FROM EAR/FOLF.                                                                                   | HollyAnne EAS product line                                                                                              | None currently reported        |
-| **8**    | EAS1CG, EAS-1, EAS1, EAS1-CG, EAS-1CG, Gorman-Redlich, GormanRedlich, Gorman Redlich | A SPECIAL WEATHER STATEMENT HAS BEEN ISSUED FOR ALLEGANY MD, BALTIMORE MD, CARROLL MD, FREDERICK MD, HARFORD MD, WASHINGTON MD, FREDERICK VA, WINCHESTER CITY VA, BERKELEY WV, HAMPSHIRE WV, JEFFERSON WV, MINERAL WV AND MORGAN WV AT 6:29 PM ON JANUARY 22, 2024 EFFECTIVE UNTIL 12:29 AM ON JANUARY 23, 2024. MESSAGE FROM EAR/FOLF.                                                                                         | Gorman Redlich EAS product line                                                                                        | None currently reported        |
+List mode allows for the listing of data that the script uses in order to help with development of external software.
 
-
-To use an emulation mode:
 ```python
 from EAS2Text import EAS2Text
 
-oof = EAS2Text(sameData = "ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-", mode="SAGE EAS") ## Emulates a SAGE EAS ENDEC
+oof = EAS2Text(listMode=True)
 
-print(f"{oof.EASText}") ## The full EAS Output data, 1822 style
-```
-should output:
-```
-The National Weather Service has issued a Special Weather Statement for Allegany County, MD, Baltimore County, MD, Carroll County, MD, Frederick County, MD, Harford County, MD, Washington County, MD, Frederick County, VA, City of Winchester, VA, Berkeley County, WV, Hampshire County, WV, Jefferson County, WV, Mineral County, WV, and Morgan County, WV beginning at 02:29 pm and ending at 08:29 pm (EAR/FOLF)
+print(f"Org List: {oof.orgList}") ## A list of all available originator codes
+print(f"Event List: {oof.evntList}") ## A list of all available event codes
+print(f"Subdivision List: {oof.subdivList}") ## A list of all available subdivision codes
+print(f"FIPS Code List: {oof.fipsList}") ## A list of all available SAME FIPS codes
 ```
 
-## Advanced Usage: Timezone Specification
+<details>
+<summary>Output</summary>
+
+```
+Org List: {'PEP': 'A Primary Entry Point System'...}
+Event List: {'BZW': 'a Blizzard Warning'...}
+Subdivision List: {'0': '', '1': 'Northwest'...}
+FIPS Code List: {'10000': 'State of Delaware'...}
+```
+</details>
+
+---
+
+## 🕒 **Timezone Support**
+
 Timezones can be specified, both in UTC offset and in TZ timezone format. [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-Note: The custom timezone specification feature has a possibility to break if an invalid timezone is specified.
+**Warning:** The library will break if an invalid timezone is specified.
 
-To use an specific timezone offset:
+### UTC Offset Example
 ```python
 from EAS2Text import EAS2Text
 
@@ -226,12 +246,18 @@ oof = EAS2Text(sameData = "ZCZC-WXR-SPS-024043-024021-024013-024005-024001-02402
 
 print(f"{oof.EASText}") ## The full EAS Output data, with a UTC-6 Offset.
 ```
-should output:
+
+<details>
+<summary>Output</summary>
+
 ```
 The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 12:29 PM and ending at 06:29 PM. Message from EAR/FOLF.
 ```
+</details>
 
-To use an specific TZ timezone:
+---
+
+### TZ Database Example
 ```python
 from EAS2Text import EAS2Text
 
@@ -239,16 +265,20 @@ oof = EAS2Text(sameData = "ZCZC-WXR-SPS-024043-024021-024013-024005-024001-02402
 
 print(f"{oof.EASText}") ## The full EAS Output data, in Europe/Berlin time.
 ```
-should output:
+
+<details>
+<summary>Output</summary>
+
 ```
 The National Weather Service in Baltimore, MD/Washington, D.C. (LWX); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 08:29 PM January 23 and ending at 02:29 AM January 24. Message from EAR/FOLF.
 ```
+</details>
 
-## Advanced Usage: Opt in to New WFO Data
-You can specify a boolean value in order to use the new standard as specified in the update.
-Note: This *CAN* and *WILL* sometimes output incorrect data, so use it without any expressed guarantee the data is accurate.
+---
 
-To specify this:
+## 📊 Opt-in to Advanced Weather Forecasting Office Data
+**Warning:** Some data in this particular dataset is inaccurate.
+
 ```python
 from EAS2Text import EAS2Text
 
@@ -291,7 +321,10 @@ print(f"TEXT Start Time: {oof.startTimeText}") ## A Start-Time Tag in the format
 print(f"TEXT End Time: {oof.endTimeText}") ## A End-Time Tag in the format of "HH:MM AM/PM MONTH_NAME DD, YYYY"
 print(f"{oof.EASText}") ## The full EAS Output dataBumped version to 0.1.14.0 and added autoupdating json lists to prevent the need to constantly update the script in the future.
 ```
-should output:
+
+<details>
+<summary>Output</summary>
+
 ```
 RAW Data: ZCZC-WXR-SPS-024043-024021-024013-024005-024001-024025-051840-051069-054027-054065-054003-054037-054057+0600-0231829-EAR/FOLF-
 RAW ORG: WXR
@@ -323,3 +356,29 @@ TEXT Start Time: 02:29 PM
 TEXT End Time: 08:29 PM
 The National Weather Service in Baltimore/Washington, D.C. (LWX); and Philadelphia/Mt Holly, NJ (PHI); has issued a Special Weather Statement for Allegany County, MD; Baltimore County, MD; Carroll County, MD; Frederick County, MD; Harford County, MD; Washington County, MD; Frederick County, VA; City of Winchester, VA; Berkeley County, WV; Hampshire County, WV; Jefferson County, WV; Mineral County, WV; and Morgan County, WV; beginning at 02:29 PM and ending at 08:29 PM. Message from EAR/FOLF.
 ```
+</details>
+
+---
+
+## ⚠️ **Reporting Issues**
+
+- Incorrect WFO/FIPS codes can be reported on [Discord](https://discord.com/users/637078631943897103) or in the GitHub Issues tab.
+- Include **entire ZCZC SAME strings** and details for accurate fixes.
+
+---
+
+## 📜 **License**
+
+**MIT License**
+
+---
+
+## 👤 **Contact**
+
+- **Developer**: SecludedHusky Systems/Newton Communications
+- **Discord**: [Contact Here](https://discord.com/users/637078631943897103)
+
+---
+
+### ❤️ **Thank You for Using My Version of EAS2Text!**  
+Powered by [SecludedHusky Systems](https://services.secludedhusky.com). Get affordable internet radio services and VPS hosting today.
