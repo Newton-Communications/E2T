@@ -205,16 +205,34 @@ class EAS2Text(object):
                 try:
                     self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                     self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
+                    
+                    startDate = self.startTime.date()  # Use .date() to get the date part
 
-                    today = DT.fromtimestamp(alertStartEpoch - dtOffset).today().date()
+                    endDate = self.endTime.date()  # Use .date() to get the date part
 
-                    current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
-                    is_leap_year = calendar.isleap(current_year)
+                    startCurrentYear = self.startTime.year  # Get the year directly
+                    start_is_leap_year = calendar.isleap(startCurrentYear)
 
-                    if is_leap_year and today > DT(today.year, 2, 29).date():
+                    endCurrentYear = self.endTime.year  # Get the year directly
+                    end_is_leap_year = calendar.isleap(endCurrentYear)
+
+                    startDateLeapYear = startDate - timedelta(days=1)
+                    endDateLeapYear = endDate - timedelta(days=1)
+
+                    if startDateLeapYear == DT(startDateLeapYear.year, 12, 31).date() and start_is_leap_year:
+                        startDateLeapYear = DT(startDateLeapYear.year+1, 12, 31).date()
+                        self.startTime += timedelta(days=366)
+                    
+                    if endDateLeapYear == DT(endDateLeapYear.year, 12, 31).date() and end_is_leap_year:
+                        endDateLeapYear = DT(endDateLeapYear.year+1, 12, 31).date()
+                        self.endTime += timedelta(days=366)
+
+                    if start_is_leap_year and startDateLeapYear > DT(startDateLeapYear.year, 2, 29).date():
                         self.startTime -= timedelta(days=1)  # Adjust for leap year
-                        self.endTime -= timedelta(days=1)  # Adjust for leap year
-                        
+
+                    if end_is_leap_year and endDateLeapYear > DT(endDateLeapYear.year, 2, 29).date():
+                        self.endTime -= timedelta(days=1)
+                                    
                     if self.startTime.day == self.endTime.day:
                         self.startTimeText = self.startTime.strftime("%I:%M %p")
                         self.endTimeText = self.endTime.strftime("%I:%M %p")
@@ -935,15 +953,33 @@ class EAS2Text(object):
                         self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                         self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
 
-                        today = DT.fromtimestamp(alertStartEpoch - dtOffset).today().date()
+                        startDate = self.startTime.date()  # Use .date() to get the date part
 
-                        current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
-                        is_leap_year = calendar.isleap(current_year)
+                        endDate = self.endTime.date()  # Use .date() to get the date part
 
-                        if is_leap_year and today > DT(today.year, 2, 29).date():
+                        startCurrentYear = self.startTime.year  # Get the year directly
+                        start_is_leap_year = calendar.isleap(startCurrentYear)
+
+                        endCurrentYear = self.endTime.year  # Get the year directly
+                        end_is_leap_year = calendar.isleap(endCurrentYear)
+
+                        startDateLeapYear = startDate - timedelta(days=1)
+                        endDateLeapYear = endDate - timedelta(days=1)
+
+                        if startDateLeapYear == DT(startDateLeapYear.year, 12, 31).date() and start_is_leap_year:
+                            startDateLeapYear = DT(startDateLeapYear.year+1, 12, 31).date()
+                            self.startTime += timedelta(days=366)
+                        
+                        if endDateLeapYear == DT(endDateLeapYear.year, 12, 31).date() and end_is_leap_year:
+                            endDateLeapYear = DT(endDateLeapYear.year+1, 12, 31).date()
+                            self.endTime += timedelta(days=366)
+
+                        if start_is_leap_year and startDateLeapYear > DT(startDateLeapYear.year, 2, 29).date():
                             self.startTime -= timedelta(days=1)  # Adjust for leap year
-                            self.endTime -= timedelta(days=1)  # Adjust for leap year
-                            
+
+                        if end_is_leap_year and endDateLeapYear > DT(endDateLeapYear.year, 2, 29).date():
+                            self.endTime -= timedelta(days=1)
+
                         if self.startTime.day == self.endTime.day:
                             self.startTimeText = self.startTime.strftime("%I:%M %p")
                             self.endTimeText = self.endTime.strftime("%I:%M %p")
@@ -1809,14 +1845,32 @@ class EAS2Text(object):
                         self.startTime = DT.fromtimestamp(alertStartEpoch - dtOffset)
                         self.endTime = DT.fromtimestamp(alertEndEpoch - dtOffset)
 
-                        today = DT.fromtimestamp(alertStartEpoch - dtOffset).today().date()
+                        startDate = self.startTime.date()  # Use .date() to get the date part
 
-                        current_year = DT.fromtimestamp(alertStartEpoch - dtOffset).year
-                        is_leap_year = calendar.isleap(current_year)
+                        endDate = self.endTime.date()  # Use .date() to get the date part
 
-                        if is_leap_year and today > DT(today.year, 2, 29).date():
+                        startCurrentYear = self.startTime.year  # Get the year directly
+                        start_is_leap_year = calendar.isleap(startCurrentYear)
+
+                        endCurrentYear = self.endTime.year  # Get the year directly
+                        end_is_leap_year = calendar.isleap(endCurrentYear)
+
+                        startDateLeapYear = startDate - timedelta(days=1)
+                        endDateLeapYear = endDate - timedelta(days=1)
+
+                        if startDateLeapYear == DT(startDateLeapYear.year, 12, 31).date() and start_is_leap_year:
+                            startDateLeapYear = DT(startDateLeapYear.year+1, 12, 31).date()
+                            self.startTime += timedelta(days=366)
+                        
+                        if endDateLeapYear == DT(endDateLeapYear.year, 12, 31).date() and end_is_leap_year:
+                            endDateLeapYear = DT(endDateLeapYear.year+1, 12, 31).date()
+                            self.endTime += timedelta(days=366)
+
+                        if start_is_leap_year and startDateLeapYear > DT(startDateLeapYear.year, 2, 29).date():
                             self.startTime -= timedelta(days=1)  # Adjust for leap year
-                            self.endTime -= timedelta(days=1)  # Adjust for leap year
+
+                        if end_is_leap_year and endDateLeapYear > DT(endDateLeapYear.year, 2, 29).date():
+                            self.endTime -= timedelta(days=1)
                             
                         if self.startTime.day == self.endTime.day:
                             self.startTimeText = self.startTime.strftime("%I:%M %p")
