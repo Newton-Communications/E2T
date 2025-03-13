@@ -37,28 +37,28 @@ class EAS2Text(object):
         same_us = requests.get("https://matra.site/cdn/E2T/same-us.json").json()
     # except requests.exceptions.RequestException:
     except:
-        with resources.open_text('EAS2Text', 'same-us.json') as json_file:
+        with resources.open_text('EAS2Text', 'same-us.json', encoding="utf-8") as json_file:
                 same_us = load(json_file)
 
     try:
         same_ca = requests.get("https://matra.site/cdn/E2T/same-ca.json").json()
     # except requests.exceptions.RequestException:
     except:
-        with resources.open_text('EAS2Text', 'same-ca.json') as json_file:
+        with resources.open_text('EAS2Text', 'same-ca.json', encoding="utf-8") as json_file:
                 same_ca = load(json_file)
 
     try:
         wfo_us = requests.get("https://matra.site/cdn/E2T/wfo-us.json").json()
     # except requests.exceptions.RequestException:
     except:
-        with resources.open_text('EAS2Text', 'wfo-us.json') as json_file:
+        with resources.open_text('EAS2Text', 'wfo-us.json', encoding="utf-8") as json_file:
                 wfo_us = load(json_file)
 
     try:
         ccl_us = requests.get("https://matra.site/cdn/E2T/CCL-us.json").json()
     except:
     # except requests.exceptions.RequestException:
-        with resources.open_text('EAS2Text', 'CCL-us.json') as json_file:
+        with resources.open_text('EAS2Text', 'CCL-us.json', encoding="utf-8") as json_file:
                 ccl_us = load(json_file)
         
     def __init__(
