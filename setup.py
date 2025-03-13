@@ -11,11 +11,11 @@ with open(path.join(path.dirname(__file__), "README.md"), encoding="utf-8") as r
 chdir(path.normpath(path.join(path.abspath(__file__), pardir)))
 
 setup(
-    name="EAS2Text",
+    name="EAS2Text-Remastered",
     packages=["EAS2Text"],
     package_data={'EAS2Text': ['templates/*.json']},
-    version="0.1.23.1",
-    description="A Python library to convert raw EAS header data to a human readable text",
+    version="0.1.23.3",
+    description="A Python library to convert raw EAS header data to a human readable text - Remastered",
     author="secludedhusky",
     author_email="secludedhusky@chesbaycommunications.com",
     license="ODbL-1.0",

@@ -24,14 +24,14 @@ EAS2Text is a powerful Python library for translating **EAS (Emergency Alert Sys
 ```bash
 sudo apt update
 sudo apt install python3 python3-pip
-python3 -m pip install https://github.com/Newton-Communications/E2T/archive/refs/heads/nwr-localities.zip
+python3 -m pip install EAS2Text-Remastered
 ```
 
 ### Windows
 1. [Install Python](https://www.python.org/downloads/).
 2. Open CMD and run:
    ```bash
-   python -m pip install https://github.com/Newton-Communications/E2T/archive/refs/heads/nwr-localities.zip
+   python -m pip install EAS2Text-Remastered
    ```
 
 ---
