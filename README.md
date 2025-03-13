@@ -1,6 +1,6 @@
 # 🌩️ **EAS2Text**: Comprehensive EAS Header-to-Text Translation Library
 
-![EAS2Text](https://github.com/Newton-Communications/E2T/blob/main/doc/img/TRxT7n.jpg?raw=true)
+![EAS2Text](https://github.com/Newton-Communications/E2T/blob/main/doc/img/RefactoredEAS2Text.png?raw=true)
 
 EAS2Text is a powerful Python library for translating **EAS (Emergency Alert System)** headers into human-readable text. It includes robust support for weather alerts, FIPS codes, emulation modes, and Canadian regions, ensuring a seamless experience for decoding emergency messages.
 
