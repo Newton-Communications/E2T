@@ -4,7 +4,7 @@ from os import chdir, pardir, path
 # Third-Party
 from setuptools import setup
 
-with open(path.join(path.dirname(__file__), "README.md")) as readme:
+with open(path.join(path.dirname(__file__), "README.md"), encoding="utf-8") as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
