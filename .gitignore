@@ -3,3 +3,4 @@ dist/
 __pycache__
 debug.log
 test-*
+EAS2Text_*.egg-info/
