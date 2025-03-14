@@ -14,7 +14,7 @@ setup(
     name="EAS2Text-Remastered",
     packages=["EAS2Text"],
     package_data={'EAS2Text': ['templates/*.json']},
-    version="0.1.24.5",
+    version="0.1.24.6",
     description="A Python library to convert raw EAS header data to a human readable text - Remastered",
     author="secludedhusky",
     author_email="secludedhusky@chesbaycommunications.com",
