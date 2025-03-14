@@ -4,30 +4,30 @@ from os import chdir, pardir, path
 # Third-Party
 from setuptools import setup
 
-with open(path.join(path.dirname(__file__), "README.md")) as readme:
+with open(path.join(path.dirname(__file__), "README.md"), encoding="utf-8") as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
 chdir(path.normpath(path.join(path.abspath(__file__), pardir)))
 
 setup(
-    name="EAS2Text",
+    name="EAS2Text-Remastered",
     packages=["EAS2Text"],
-    version="0.1.12",
-    description="A Python library to convert raw EAS header data to a human readable text",
-    author="A-c0rN",
-    author_email="acrn@gwes-eas.network",
+    package_data={'EAS2Text': ['templates/*.json']},
+    version="0.1.24.4",
+    description="A Python library to convert raw EAS header data to a human readable text - Remastered",
+    author="secludedhusky",
+    author_email="secludedhusky@chesbaycommunications.com",
     license="ODbL-1.0",
     install_requires=[],
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/A-c0rN/EAS2Text",
+    url="https://github.com/Newton-Communications/E2T",
     keywords="eas alerting emergency-alert-system",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: Other/Proprietary License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -38,4 +38,5 @@ setup(
         "Topic :: Software Development :: Libraries",
         "Topic :: Utilities",
     ],
+    include_package_data=True,  # Ensure non-Python files are included
 )
